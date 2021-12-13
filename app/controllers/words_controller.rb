@@ -1,14 +1,33 @@
+require 'http'
+
 class WordsController < ApplicationController
-  before_action :set_word, only: %i[ show edit update destroy ]
+  before_action :set_word, only: %i[show edit update destroy]
 
   # GET /words or /words.json
   def index
-    # @words = Word.all
-    @words = Word.search(word_search_params[:search])
+    @word = Word.search(word_search_params[:phrase])[0]
+  rescue ActionController::ParameterMissing
+    puts 'no params'
+  ensure
+    if @word
+      respond_to do |format|
+        format.html { redirect_to @word }
+        format.json { redirect_to @word, format: :json } # render :show, status: :created, location: @word
+      end
+    else
+      @words = Word.all
+    end
   end
 
   # GET /words/1 or /words/1.json
   def show
+    @word_api = HTTP.get("https://api.dictionaryapi.dev/api/v2/entries/en/#{@word.phrase}").body
+    respond_to do |format|
+      format.json do
+        render json: { own: @word.to_json, api: @word_api }.as_json
+      end
+      format.html
+    end
   end
 
   # GET /words/new
@@ -69,6 +88,6 @@ class WordsController < ApplicationController
     end
 
     def word_search_params
-      params.permit(:search)
+      params.require(:search).permit(:phrase, :part_of_speech)
     end
 end

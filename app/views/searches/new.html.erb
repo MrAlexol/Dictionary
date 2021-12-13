@@ -1,6 +1,6 @@
 <h1>Advanced Search</h1>
 
-<%= form_with model: @search do |f| %>
+<%= form_with model: @search, id: :search_form, local: false, url: "#{words_path}.json", method: :get, format: :json do |f| %>
     <%= f.label :phrase %>
     <%= f.text_field :phrase %>
 
@@ -9,5 +9,5 @@
 
     <%= f.submit "Search" %>
 <% end %>
-
+<div id="search_result"></div>
 <p><%= link_to "Back", '/words' %></p>
