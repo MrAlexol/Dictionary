@@ -5,7 +5,7 @@ class SearchesController < ApplicationController
 
   def new
     @search = Search.new
-    @parts_of_speech = ['Noun', 'Verb', 'Adjective']
+    @parts_of_speech = ['Noun', 'Verb', 'Adjective', 'Adverb', 'Number', 'Pronoun', 'Conjunction', 'Interjection', 'Prefix', 'Postfix']
   end
 
   def create
