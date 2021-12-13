@@ -1,0 +1,13 @@
+<h1>Advanced Search</h1>
+
+<%= form_with model: @search do |f| %>
+    <%= f.label :phrase %>
+    <%= f.text_field :phrase %>
+
+    <%= f.label :part_of_speech %>
+    <%= f.select :part_of_speech, options_for_select(@parts_of_speech), include_blank: true %><br><br>
+
+    <%= f.submit "Search" %>
+<% end %>
+
+<p><%= link_to "Back", '/words' %></p>

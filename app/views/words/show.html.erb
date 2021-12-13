@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Phrase:</strong>
+  <%= @word.phrase %>
+</p>
+
+<p>
+  <strong>Groups:</strong>
+  <%= @word.groups %>
+</p>
+
+<%= link_to 'Edit', edit_word_path(@word) %> |
+<%= link_to 'Back', words_path %>

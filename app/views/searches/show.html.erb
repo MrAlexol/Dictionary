@@ -1,0 +1,28 @@
+<h1>Search Results</h1>
+<p><%= link_to "Back", new_search_path %></p>
+
+<% if @search.search_word.empty? %>
+    <p>No words were found.</p>
+<% else %>
+    <table>
+        <thead>
+            <tr>
+                <th>Word</th>
+                <th>groups</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% @search.search_word.each do |word| %>
+            <tr>
+                <td><%= word.phrase %></td>
+                <td><%= word.groups %></td>
+                <td><%= link_to 'Show', word %></td>
+                <td><%= link_to 'Edit', edit_word_path(word) %></td>
+                <td><%= link_to 'Destroy', word, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+            <% end %>
+        </tbody>
+</table>
+<% end %>
