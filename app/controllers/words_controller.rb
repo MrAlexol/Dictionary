@@ -1,6 +1,7 @@
 require 'http'
 
 class WordsController < ApplicationController
+  include WordsHelper
   before_action :set_word, only: %i[show edit update destroy]
 
   # GET /words or /words.json
@@ -15,7 +16,17 @@ class WordsController < ApplicationController
         format.json { redirect_to @word, format: :json } # render :show, status: :created, location: @word
       end
     else
-      @words = Word.all
+      respond_to do |format|
+        format.html { @words = Word.all }
+        format.json do
+          word_list = make_word_list(word_search_params[:phrase])
+          if word_list.length == 1
+            redirect_to Word.search(word_list.keys[0])[0]
+          else
+            render json: word_list.to_json
+          end
+        end
+      end
     end
   end
 
@@ -24,7 +35,7 @@ class WordsController < ApplicationController
     @word_api = HTTP.get("https://api.dictionaryapi.dev/api/v2/entries/en/#{@word.phrase}").body.to_s
     respond_to do |format|
       format.json do
-        render json: { own: @word.to_json, api: @word_api }.as_json
+        render json: { own: @word.to_json, api: JSON.parse(@word_api)[0].to_json }.as_json
       end
       format.html
     end

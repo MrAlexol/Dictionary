@@ -16,7 +16,7 @@ class Word < ApplicationRecord
     if search
       where(phrase: search)
     else
-      all
+      nil
     end
   end
 end

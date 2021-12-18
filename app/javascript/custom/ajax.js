@@ -1,21 +1,29 @@
 window.addEventListener("load", () => {
-  const element = document.getElementById("search_form");
-  if (element) {
-    element.addEventListener("ajax:success", (event) => {
+  const search_form = document.getElementById("search_form");
+  if (search_form) {
+    search_form.addEventListener("ajax:success", (event) => {
       const [_data, _status, xhr] = event.detail;
       let xhr_obj = JSON.parse(xhr.response);
-      console.log("API:");
-      console.log(JSON.parse(xhr_obj.api));
-      console.log("DB:");
-      console.log(JSON.parse(xhr_obj.own));
-
-      //show_result(xhr_obj);
-      fill_table(xhr_obj);
+      console.log(xhr_obj);
+      // console.log("API:");
+      // console.log(JSON.parse(xhr_obj.api));
+      // console.log("DB:");
+      // console.log(JSON.parse(xhr_obj.own));
+      if (xhr_obj.api && xhr_obj.own)
+        fill_table(xhr_obj);
+      else
+        show_options(xhr_obj);
     });
-    element.addEventListener("ajax:error", () => {
+    search_form.addEventListener("ajax:error", () => {
         document.querySelector("#table_placer").innerText = "ERROR";
     });
   }
+
+  const select = document.querySelector("#search_part_of_speech");
+  const input_field = document.querySelector("#search_phrase");
+  input_field.addEventListener("change", () => {
+    select.innerHTML = '<option value="" label=" "></option>';
+  });
 });
 
 let fill_table = function (data) {
@@ -33,8 +41,8 @@ let fill_table = function (data) {
 
   const header_row = document.createElement("tr");
   thead.appendChild(header_row);
-  header_row.innerText = own_data.phrase + '\t';
-  api_data[0].phonetics.forEach ( function(phonetic_variant, index) {
+  header_row.innerText = api_data.word + '\t';
+  api_data.phonetics.forEach ( function(phonetic_variant, index) {
     header_row.innerHTML += `\t[${phonetic_variant.text}]\t`;
     if (phonetic_variant.audio) {
       header_row.innerHTML += `<a id="audio_a${index}"><svg width=\"14\" height=\"16\" viewBox=\"0 0 14 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\
@@ -43,7 +51,7 @@ let fill_table = function (data) {
       <audio id="audio${index}" src="${phonetic_variant.audio}"></audio></a> `;
     }
   });
-  for (let i = 0; i < api_data[0].phonetics.length; i++) {
+  for (let i = 0; i < api_data.phonetics.length; i++) {
     document.querySelector(`#audio_a${i}`)?.addEventListener("click", function() {
       let audio = document.getElementById(`audio${i}`);
       audio.play();
@@ -52,20 +60,14 @@ let fill_table = function (data) {
 
   const groups_row = document.createElement("tr");
   thead.appendChild(groups_row);
-  let groups_list = own_data.groups.split('|');
+  let groups_list = own_data?.groups.split('|');
   groups_list.forEach ( (el) => {
     groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span>`;
   });
   
   const select = document.querySelector("#search_part_of_speech");
-  const input_field = document.querySelector("#search_phrase");
-  input_field.addEventListener("change", () => {
-    select.innerHTML = '<option value="" label=" "></option>';
-  });
 
-  api_data[0].meanings.forEach( (meaning) => {
-    
-    //
+  api_data.meanings.forEach( (meaning) => {
     if (select.innerText.split("\n").indexOf(meaning.partOfSpeech) === -1) {
       let opt = document.createElement('option');
       opt.value = meaning.partOfSpeech;
@@ -76,7 +78,7 @@ let fill_table = function (data) {
     if (meaning.partOfSpeech === select.value || select.value == '') {
       const word_row = document.createElement("tr");
       tbody.appendChild(word_row);
-      word_row.innerText = `${api_data[0].word} (${meaning.partOfSpeech})`;
+      word_row.innerText = `${api_data.word} (${meaning.partOfSpeech})`;
       
       meaning.definitions.forEach( (definition) => {
         const def_row = document.createElement("tr");
@@ -92,3 +94,19 @@ let fill_table = function (data) {
     }
   });
 }
+
+function show_options(options) {
+  const div_place = document.querySelector("#table_placer");
+  div_place.innerText = "Maybe you meant:";
+  for (const key of Object.keys(options)) {    
+    const option = document.createElement("div");
+    div_place.appendChild(option);
+    option.innerText = key;
+    option.addEventListener("click", () => {
+      document.querySelector("#search_phrase").value = option.innerText;
+      document.querySelector("#search_submit").click();
+    })
+  }
+  
+}
+

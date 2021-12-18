@@ -7,7 +7,7 @@
     <%= f.label :part_of_speech %>
     <%= f.select :part_of_speech, options_for_select(''), include_blank: true %><br><br>
 
-    <%= f.submit "Search" %>
+    <%= f.submit 'Search', id: 'search_submit' %>
 <% end %>
 
 <div id="table_placer">
