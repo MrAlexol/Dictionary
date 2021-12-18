@@ -1,14 +1,16 @@
 <h1>Advanced Search</h1>
 
 <%= form_with model: @search, id: :search_form, local: false, url: "#{words_path}.json", method: :get, format: :json do |f| %>
-    <%= f.label :phrase %>
-    <%= f.text_field :phrase %>
-
-    <%= f.label :part_of_speech %>
-    <%= f.select :part_of_speech, options_for_select(''), include_blank: true %><br><br>
-
-    <%= f.submit 'Search', id: 'search_submit' %>
+    <div class="mb-3">
+        <%= f.label :phrase %>
+        <%= f.text_field :phrase, class: 'form-control w-50' %>
+    </div>
+    <div class="mb-3">
+        <%= f.label :part_of_speech %>
+        <%= f.select :part_of_speech, options_for_select(''), {}, {class: 'form-select form-select-sm w-25'} %>
+    </div>
+    <%= f.submit 'Search', id: 'search_submit', class: 'btn btn-primary' %>
 <% end %>
 
-<div id="table_placer">
+<div id="table_placer" class="mt-3">
 </div>
