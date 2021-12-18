@@ -31,82 +31,93 @@ let fill_table = function (data) {
   div_place.innerText = "";
   let own_data = JSON.parse(data.own);
   let api_data = JSON.parse(data.api);
+  let input_field = document.querySelector("#search_phrase");
+  input_field.value = api_data[0].word;
 
-  const result_table = document.createElement("table");
-  div_place.appendChild(result_table);
-  const thead = document.createElement("thead");
-  const tbody = document.createElement("tbody");
-  result_table.appendChild(thead);
-  result_table.appendChild(tbody);
-
-  const header_row = document.createElement("tr");
-  thead.appendChild(header_row);
-  header_row.innerText = api_data.word + '\t';
-  api_data.phonetics.forEach ( function(phonetic_variant, index) {
-    header_row.innerHTML += `\t[${phonetic_variant.text}]\t`;
-    if (phonetic_variant.audio) {
-      header_row.innerHTML += `<a id="audio_a${index}"><svg width=\"14\" height=\"16\" viewBox=\"0 0 14 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\
-      <path d=\"M13.5 8C13.5 6.23 12.48 4.71 11 3.97V12.02C12.48 11.29 13.5 9.77 13.5 8ZM0 5V11H4L9 16V0L4 5H0Z\" fill=\"black\"/>\
-      </svg>\
-      <audio id="audio${index}" src="${phonetic_variant.audio}"></audio></a> `;
+  api_data.forEach ( (word, word_index) => { 
+    if (word.word.toLowerCase() !== input_field.value.toLowerCase()) {
+      return;
     }
-  });
-  for (let i = 0; i < api_data.phonetics.length; i++) {
-    document.querySelector(`#audio_a${i}`)?.addEventListener("click", function() {
-      let audio = document.getElementById(`audio${i}`);
-      audio.play();
+    const result_table = document.createElement("table");
+    div_place.appendChild(result_table);
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+    result_table.appendChild(thead);
+    result_table.appendChild(tbody);
+
+    const header_row = document.createElement("tr");
+    thead.appendChild(header_row);
+    header_row.innerText = word.word + '\t';
+    word.phonetics.forEach ( function(phonetic_variant, index) {
+      header_row.innerHTML += `\t[${phonetic_variant.text}]\t`;
+      if (phonetic_variant.audio) {
+        header_row.innerHTML += `<a id="audio_a${word_index}_${index}"><svg width=\"14\" height=\"16\" viewBox=\"0 0 14 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\
+        <path d=\"M13.5 8C13.5 6.23 12.48 4.71 11 3.97V12.02C12.48 11.29 13.5 9.77 13.5 8ZM0 5V11H4L9 16V0L4 5H0Z\" fill=\"black\"/>\
+        </svg>\
+        <audio id="audio${word_index}_${index}" src="${phonetic_variant.audio}"></audio></a> `;
+      }
     });
-  }
-
-  const groups_row = document.createElement("tr");
-  thead.appendChild(groups_row);
-  let groups_list = own_data?.groups.split('|');
-  groups_list.forEach ( (el) => {
-    groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span>`;
-  });
-  
-  const select = document.querySelector("#search_part_of_speech");
-
-  api_data.meanings.forEach( (meaning) => {
-    if (select.innerText.split("\n").indexOf(meaning.partOfSpeech) === -1) {
-      let opt = document.createElement('option');
-      opt.value = meaning.partOfSpeech;
-      opt.innerHTML = meaning.partOfSpeech;
-      select.appendChild(opt);
-    }
-    
-    if (meaning.partOfSpeech === select.value || select.value == '') {
-      const word_row = document.createElement("tr");
-      tbody.appendChild(word_row);
-      word_row.innerText = `${api_data.word} (${meaning.partOfSpeech})`;
-      
-      meaning.definitions.forEach( (definition) => {
-        const def_row = document.createElement("tr");
-        tbody.appendChild(def_row);
-        def_row.innerText = definition.definition;
-        if (definition.example) {
-          const example_row = document.createElement("tr");
-          tbody.appendChild(example_row);
-          example_row.innerText = definition.example;
-          example_row.style = 'font-style: italic';
-        }
+    for (let i = 0; i < word.phonetics.length; i++) {
+      document.querySelector(`#audio_a${word_index}_${i}`)?.addEventListener("click", function() {
+        let audio = document.getElementById(`audio${word_index}_${i}`);
+        audio.play();
       });
     }
+
+    const groups_row = document.createElement("tr");
+    thead.appendChild(groups_row);
+    let groups_list = own_data?.groups.split('|');
+    groups_list.forEach ( (el) => {
+      groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span>`;
+    });
+    
+    const select = document.querySelector("#search_part_of_speech");
+
+    word.meanings.forEach( (meaning) => {
+      if (select.innerText.split("\n").indexOf(meaning.partOfSpeech) === -1) {
+        let opt = document.createElement('option');
+        opt.value = meaning.partOfSpeech;
+        opt.innerHTML = meaning.partOfSpeech;
+        select.appendChild(opt);
+      }
+      
+      if (meaning.partOfSpeech === select.value || select.value == '') {
+        const word_row = document.createElement("tr");
+        tbody.appendChild(word_row);
+        word_row.innerText = `${word.word} (${meaning.partOfSpeech})`;
+        
+        meaning.definitions.forEach( (definition) => {
+          const def_row = document.createElement("tr");
+          tbody.appendChild(def_row);
+          def_row.innerText = definition.definition;
+          if (definition.example) {
+            const example_row = document.createElement("tr");
+            tbody.appendChild(example_row);
+            example_row.innerText = definition.example;
+            example_row.style = 'font-style: italic';
+          }
+        });
+      }
+    });
   });
 }
 
 function show_options(options) {
   const div_place = document.querySelector("#table_placer");
-  div_place.innerText = "Maybe you meant:";
-  for (const key of Object.keys(options)) {    
-    const option = document.createElement("div");
-    div_place.appendChild(option);
-    option.innerText = key;
-    option.addEventListener("click", () => {
-      document.querySelector("#search_phrase").value = option.innerText;
-      document.querySelector("#search_submit").click();
-    })
+  if (Object.keys(options).length > 0) {
+    div_place.innerText = "Maybe you meant:";
+    for (const key of Object.keys(options)) {    
+      const option = document.createElement("div");
+      div_place.appendChild(option);
+      option.innerText = key;
+      option.addEventListener("click", () => {
+        document.querySelector("#search_phrase").value = option.innerText;
+        document.querySelector("#search_submit").click();
+      })
+    }
   }
-  
+  else {
+    div_place.innerText = "Nothing was found";
+  }
 }
 

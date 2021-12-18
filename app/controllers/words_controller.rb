@@ -35,7 +35,7 @@ class WordsController < ApplicationController
     @word_api = HTTP.get("https://api.dictionaryapi.dev/api/v2/entries/en/#{@word.phrase}").body.to_s
     respond_to do |format|
       format.json do
-        render json: { own: @word.to_json, api: JSON.parse(@word_api)[0].to_json }.as_json
+        render json: { own: @word.to_json, api: @word_api }.as_json
       end
       format.html
     end
