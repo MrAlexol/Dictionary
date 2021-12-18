@@ -1,12 +1,3 @@
-// window.addEventListener("load", () => {
-//     alert("Hello from ajax.js!")
-// })
-var word_definitions = {
-  "defs": [],
-  "pOfSp": [],
-  "examples": []
-};
-
 window.addEventListener("load", () => {
   const element = document.getElementById("search_form");
   if (element) {
@@ -26,83 +17,6 @@ window.addEventListener("load", () => {
     });
   }
 });
-  
-function get_proper_meaning(rec) {
-  let selected_pos = document.querySelector("#search_part_of_speech").value;
-  console.log('REC-POS:');
-
-  rec.meanings.forEach(element => {
-    console.log(element.partOfSpeech);
-
-    if (element.partOfSpeech.toUpperCase() === selected_pos.toUpperCase() || selected_pos === "") {
-      console.log('REC-DEF:');
-      console.log(element.definitions);
-
-      word_definitions.defs.push(element.definitions);
-      for (let i = 0; i < element.definitions.length; i++) {
-        word_definitions.pOfSp.push(element.partOfSpeech);
-        word_definitions.examples.push(element.definitions[i].example || "");
-      }
-      word_definitions.defs = word_definitions.defs.flat();
-    }
-  });
-}
-
-function clear_globals() {
-  word_definitions.defs = [];
-  word_definitions.pOfSp = [];
-  word_definitions.examples = [];
-}
-
-function show_result(xhr_obj) {
-  const div_place = document.querySelector("#table_placer");
-  div_place.innerText = "";
-  JSON.parse(xhr_obj.api).forEach (word => {
-    const result_table = document.createElement("table");
-    div_place.appendChild(result_table);
-    const thead = document.createElement("thead");
-    const tbody = document.createElement("tbody");
-    result_table.appendChild(thead);
-    result_table.appendChild(tbody);
-
-    clear_globals();
-    thead.innerText = '';
-    tbody.innerText = '';
-    {
-      const result_row = document.createElement("tr");
-      thead.appendChild(result_row);
-      const result_cell = document.createElement("td");
-      const extra_cell = document.createElement("td");
-      const name_cell = document.createElement("th");
-      result_row.appendChild(name_cell);
-      result_row.appendChild(result_cell);
-      result_row.appendChild(extra_cell);
-      result_cell.innerText = JSON.parse(xhr_obj.own).groups;
-      name_cell.innerText = 'Groups';
-    }
-    get_proper_meaning(word);
-    for (let i = 0; i < word_definitions.defs.length; i++) {
-      const row = document.createElement("tr");
-      tbody.appendChild(row);
-      const result_cell = document.createElement("td");
-      const example_cell = document.createElement("td");
-      const name_cell = document.createElement("th");
-      row.appendChild(name_cell);
-      row.appendChild(result_cell);
-      row.appendChild(example_cell);
-      result_cell.innerText = word_definitions.defs[i].definition;
-      name_cell.innerText = word_definitions.pOfSp[i];
-      example_cell.innerText = word_definitions.examples[i];
-    }
-  });
-}
-
-// var ll = function() {
-//   const audio_element = document.getElementById('audio_a');
-//   audio_element.addEventListener("click", function() {
-    
-//   });
-// }
 
 let fill_table = function (data) {
   const div_place = document.querySelector("#table_placer");
@@ -130,25 +44,51 @@ let fill_table = function (data) {
     }
   });
   for (let i = 0; i < api_data[0].phonetics.length; i++) {
-    document.querySelector(`#audio_a${i}`).addEventListener("click", function() {
+    document.querySelector(`#audio_a${i}`)?.addEventListener("click", function() {
       let audio = document.getElementById(`audio${i}`);
       audio.play();
-    })
+    });
   }
-    
+
+  const groups_row = document.createElement("tr");
+  thead.appendChild(groups_row);
+  let groups_list = own_data.groups.split('|');
+  groups_list.forEach ( (el) => {
+    groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span>`;
+  });
   
+  const select = document.querySelector("#search_part_of_speech");
+  const input_field = document.querySelector("#search_phrase");
+  input_field.addEventListener("change", () => {
+    select.innerHTML = '<option value="" label=" "></option>';
+  });
 
-  api_data.forEach (word => {
+  api_data[0].meanings.forEach( (meaning) => {
     
-
-    const result_cell = document.createElement("td");
-    const extra_cell = document.createElement("td");
-    const name_cell = document.createElement("th");
-    result_row.appendChild(name_cell);
-    result_row.appendChild(result_cell);
-    result_row.appendChild(extra_cell);
-    result_cell.innerText = JSON.parse(xhr_obj.own).groups;
-    name_cell.innerText = 'Groups';
+    //
+    if (select.innerText.split("\n").indexOf(meaning.partOfSpeech) === -1) {
+      let opt = document.createElement('option');
+      opt.value = meaning.partOfSpeech;
+      opt.innerHTML = meaning.partOfSpeech;
+      select.appendChild(opt);
+    }
+    
+    if (meaning.partOfSpeech === select.value || select.value == '') {
+      const word_row = document.createElement("tr");
+      tbody.appendChild(word_row);
+      word_row.innerText = `${api_data[0].word} (${meaning.partOfSpeech})`;
+      
+      meaning.definitions.forEach( (definition) => {
+        const def_row = document.createElement("tr");
+        tbody.appendChild(def_row);
+        def_row.innerText = definition.definition;
+        if (definition.example) {
+          const example_row = document.createElement("tr");
+          tbody.appendChild(example_row);
+          example_row.innerText = definition.example;
+          example_row.style = 'font-style: italic';
+        }
+      });
+    }
   });
 }
-
