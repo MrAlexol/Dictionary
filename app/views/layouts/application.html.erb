@@ -11,6 +11,10 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'shared/navbar', user: current_user %>
+    <main class="container mt-3">
+      <%= render 'shared/flash' %>
+      <%= yield %>
+    </main>
   </body>
 </html>

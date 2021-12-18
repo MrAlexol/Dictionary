@@ -1,0 +1,5 @@
+<ul class="p-0">
+    <% flash.each do |key, val| %>
+        <%= tag.div val, class: "alert alert-#{key} mt-4", role: "alert" %>
+    <% end %>
+</ul>

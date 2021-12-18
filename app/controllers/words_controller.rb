@@ -3,6 +3,7 @@ require 'http'
 class WordsController < ApplicationController
   include WordsHelper
   before_action :set_word, only: %i[show edit update destroy]
+  before_action :authenticate_user!, except: %i[index show]
 
   # GET /words or /words.json
   def index
