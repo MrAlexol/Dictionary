@@ -13,6 +13,7 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <li><a class="dropdown-item" href="<%= edit_user_registration_path %>">Профиль</a></li>
+          <li><a class="dropdown-item" href="<%= cards_path %>">Мои карточки</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><%= link_to "Sign Out", destroy_user_session_path, :method => :delete %></li>
         </ul>

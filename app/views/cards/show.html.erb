@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Word:</strong>
+  <%= @card.word %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @card.user_id %>
+</p>
+
+<p>
+  <strong>Definition:</strong>
+  <%= @card.definition %>
+</p>
+
+<%= link_to 'Back', cards_path %>
+<%= link_to 'Home', root_path %>

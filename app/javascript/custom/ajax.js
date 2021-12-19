@@ -1,8 +1,9 @@
-window.addEventListener("load", () => {
+const Rails = require("@rails/ujs");
 
+window.addEventListener("load", () => {
   const search_form = document.getElementById("search_form");
   if (search_form) {
-    document.addEventListener("ajax:success", (event) => { // для работы при переходе при помощи navbar
+    window.addEventListener("ajax:success", (event) => { // для работы при переходе при помощи navbar
       const [_data, _status, xhr] = event.detail;
       let xhr_obj = JSON.parse(xhr.response);
       console.log(xhr_obj);
@@ -10,7 +11,6 @@ window.addEventListener("load", () => {
       // console.log(JSON.parse(xhr_obj.api));
       // console.log("DB:");
       // console.log(JSON.parse(xhr_obj.own));
-      
 
       if (xhr_obj.api && xhr_obj.own) {
         let own_data = JSON.parse(xhr_obj.own);
@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
   const select = document.querySelector("#search_part_of_speech");
   const input_field = document.querySelector("#search_phrase");
   input_field.addEventListener("change", () => {
-    select.innerHTML = '<option value="" label=" "></option>';
+    select.innerHTML = '<option value="all">all</option>';
   });
 });
 
@@ -82,7 +82,7 @@ let fill_table = function (own_data, api_data) {
     
     const select = document.querySelector("#search_part_of_speech");
 
-    word.meanings.forEach( (meaning) => {
+    word.meanings.forEach( (meaning, meaning_index) => {
       if (select.innerText.split("\n").indexOf(meaning.partOfSpeech) === -1) {
         let opt = document.createElement('option');
         opt.value = meaning.partOfSpeech;
@@ -90,15 +90,20 @@ let fill_table = function (own_data, api_data) {
         select.appendChild(opt);
       }
       
-      if (meaning.partOfSpeech === select.value || select.value == '') {
+      if (meaning.partOfSpeech === select.value || select.value == "all") {
         const word_row = document.createElement("tr");
         tbody.appendChild(word_row);
         word_row.innerText = `${word.word} (${meaning.partOfSpeech})`;
-        
-        meaning.definitions.forEach( (definition) => {
+        word_row.id = `word_row_${word_index}_${meaning_index}`
+        meaning.definitions.forEach( (definition, def_index) => {
           const def_row = document.createElement("tr");
           tbody.appendChild(def_row);
           def_row.innerText = definition.definition;
+          def_row.id = `def_row_${word_index}_${meaning_index}_${def_index}`;
+          def_row.classList += "word_definition";
+          def_row.addEventListener("click", () => {add_link(word_index, meaning_index, def_index); return false; });
+          
+          // add_link(word_index, meaning_index, def_row);
           if (definition.example) {
             const example_row = document.createElement("tr");
             tbody.appendChild(example_row);
@@ -133,3 +138,20 @@ function show_options(options) {
   }
 }
 
+function add_link(word_index, meaning_index, def_index) {
+  let word_el = document.querySelector(`#word_row_${word_index}_${meaning_index}`);
+  let def_el = document.querySelector(`#def_row_${word_index}_${meaning_index}_${def_index}`);
+
+  let svg_ok = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\
+  <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="black"/>\
+  </svg>';
+
+  let mydata = `card[word]=${word_el.innerText}&card[definition]=${def_el.innerText}`;
+  Rails.ajax({
+    type: "POST", 
+    url: "/cards",
+    data: mydata,
+    success: function(repsonse){ def_el.innerHTML += svg_ok; },
+    error: function(repsonse){ alert("ERR") }
+  })
+}

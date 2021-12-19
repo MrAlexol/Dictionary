@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
   
+  # get 'cards', to: 'cards#index'
+  # post 'cards', to: 'cards#create'
+  # get 'cards/:id', to: 'cards#show'
+  # delete 'cards/:id', to: 'cards#destroy'
+  
+  resources :cards, only: %i[index create show destroy]
   #devise_for :users
   get 'sessions/logout'
   root 'searches#new'
