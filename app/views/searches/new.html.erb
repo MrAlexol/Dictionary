@@ -1,13 +1,13 @@
-<h1>Advanced Search</h1>
+<h1>Search</h1>
 
 <%= form_with model: @search, id: :search_form, local: false, url: "#{words_path}.json", method: :get, format: :json do |f| %>
     <div class="mb-3">
         <%= f.label :phrase %>
-        <%= f.text_field :phrase, class: 'form-control w-50' %>
+        <%= f.text_field :phrase, class: 'form-control w-50', required: true %>
     </div>
     <div class="mb-3">
         <%= f.label :part_of_speech %>
-        <%= f.select :part_of_speech, options_for_select(''), {}, {class: 'form-select form-select-sm w-25'} %>
+        <%= f.select :part_of_speech, options_for_select([]), {}, { class: 'form-select form-select-sm w-25' } %>
     </div>
     <%= f.submit 'Search', id: 'search_submit', class: 'btn btn-primary' %>
 <% end %>

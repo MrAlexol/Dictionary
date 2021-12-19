@@ -7,7 +7,7 @@ class WordsController < ApplicationController
 
   # GET /words or /words.json
   def index
-    @word = Word.search(word_search_params[:phrase])[0]
+    @word = Word.search(word_search_params[:phrase].downcase)[0]
   rescue ActionController::ParameterMissing
     puts 'no params'
   ensure

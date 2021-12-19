@@ -1,7 +1,8 @@
 window.addEventListener("load", () => {
+
   const search_form = document.getElementById("search_form");
   if (search_form) {
-    search_form.addEventListener("ajax:success", (event) => {
+    document.addEventListener("ajax:success", (event) => { // для работы при переходе при помощи navbar
       const [_data, _status, xhr] = event.detail;
       let xhr_obj = JSON.parse(xhr.response);
       console.log(xhr_obj);
@@ -9,13 +10,21 @@ window.addEventListener("load", () => {
       // console.log(JSON.parse(xhr_obj.api));
       // console.log("DB:");
       // console.log(JSON.parse(xhr_obj.own));
-      if (xhr_obj.api && xhr_obj.own)
-        fill_table(xhr_obj);
+      
+
+      if (xhr_obj.api && xhr_obj.own) {
+        let own_data = JSON.parse(xhr_obj.own);
+        let api_data = JSON.parse(xhr_obj.api);
+        if (Array.isArray(api_data))
+          fill_table(own_data, api_data);
+        else
+          show_options({});
+      }
       else
         show_options(xhr_obj);
     });
     search_form.addEventListener("ajax:error", () => {
-        document.querySelector("#table_placer").innerText = "ERROR";
+        document.querySelector("#table_placer").innerText = "Sorry, AJAX doesn't work";
     });
   }
 
@@ -26,11 +35,10 @@ window.addEventListener("load", () => {
   });
 });
 
-let fill_table = function (data) {
+let fill_table = function (own_data, api_data) {
   const div_place = document.querySelector("#table_placer");
   div_place.innerText = "";
-  let own_data = JSON.parse(data.own);
-  let api_data = JSON.parse(data.api);
+  
   let input_field = document.querySelector("#search_phrase");
   input_field.value = api_data[0].word;
 
@@ -39,6 +47,7 @@ let fill_table = function (data) {
       return;
     }
     const result_table = document.createElement("table");
+    result_table.id = `result_table${word_index}`;
     div_place.appendChild(result_table);
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");
@@ -66,8 +75,8 @@ let fill_table = function (data) {
 
     const groups_row = document.createElement("tr");
     thead.appendChild(groups_row);
-    let groups_list = own_data?.groups.split('|');
-    groups_list.forEach ( (el) => {
+    let groups_list = own_data?.groups?.split('|');
+    groups_list?.forEach ( (el) => {
       groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span>`;
     });
     
@@ -99,6 +108,9 @@ let fill_table = function (data) {
         });
       }
     });
+    if (tbody.innerHTML === "") { // удалим пустые таблицы. Такие могут появляться при фильтрации по части речи
+      result_table.remove();
+    }
   });
 }
 
