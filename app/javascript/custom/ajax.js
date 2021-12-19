@@ -41,7 +41,7 @@ window.addEventListener("turbolinks:load", () => {
       let xhr_obj = JSON.parse(xhr.response);
       console.log(xhr_obj);
 
-      show_result(xhr_obj.result);
+      show_result(xhr_obj);
     });
     card_form.addEventListener("ajax:error", () => {
         document.querySelector("#table_placer").innerText = "Sorry, the server doesn't respond";
@@ -165,14 +165,55 @@ function add_link(word_index, meaning_index, def_index) {
     type: "POST", 
     url: "/cards",
     data: mydata,
-    success: function(repsonse){ def_el.innerHTML += svg_ok; },
-    error: function(repsonse){ alert("ERR") }
+    success: function(response){ def_el.innerHTML += svg_ok; },
+    error: function(response){ alert(response) }
   })
 }
 
-function show_result(result) {
-  if (result.status === "correct")
-    alert("OK")
-  else
-    alert("Not OK!")
+function show_result(respond) {
+  let result = respond.result;
+  let user_action = respond.for;
+  let card = document.querySelector("#my_card");
+  card.querySelector("div.card-footer")?.remove();
+  let card_body = document.querySelector("#my_card_body");
+  let card_footer = document.createElement("div");
+  card.appendChild(card_footer);
+  card_footer.classList = "card-footer ";
+
+  let btn_check = document.querySelector("#check_submit");
+  let btn_dontrem = document.querySelector("#show_answer_submit");
+  let word_input = document.querySelector("#card_word")
+
+  if (user_action === "Check") {
+    if (result.status === "correct") {
+      card.classList = "card border-success";
+      card_body.classList = "card-body text-success";
+      card_footer.classList += "text-white bg-success";
+      card_footer.innerText = "Correct!";
+      word_input.readOnly = true;
+      btn_check.hidden = true;
+      btn_dontrem.hidden = true;
+    }
+    else if (result.DL_distance === 1) {
+      card.classList = "card border-warning";
+      card_body.classList = "card-body";
+      card_footer.classList += "bg-warning";
+      card_footer.innerHTML = `Almost correct! The right answer is <em>${result.answer}</em>`;
+    }
+    else {
+      card.classList = "card border-danger";
+      card_body.classList = "card-body text-danger";
+      card_footer.classList += "text-white bg-danger";
+      card_footer.innerText = "Not correct!";
+    }
+  }
+  else {
+    card.classList = "card border-warning";
+    card_body.classList = "card-body";
+    card_footer.classList += "bg-warning";
+    card_footer.innerHTML = `Correct answer is <em>${result.answer}</em>`;
+    btn_check.hidden = true;
+    btn_dontrem.hidden = true;
+    word_input.readOnly = true;
+  }
 }

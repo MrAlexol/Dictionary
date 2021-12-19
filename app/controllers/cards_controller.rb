@@ -16,7 +16,7 @@ class CardsController < ApplicationController
   # POST /cards/1/check.json
   def check
     respond_to do |format|
-      format.json { render json: { result: make_respond(card_params[:word], @card.word).as_json }.as_json }
+      format.json { render json: { result: make_respond(card_params[:word], @card.word).as_json, for: params[:commit] }.as_json }
     end
   end
 
