@@ -1,19 +1,22 @@
-<p id="notice"><%= notice %></p>
+<div class="card">
+  <div class="card-header">
+    Guess this word
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">What's the English for</h5>
+    <p class="card-text"><%= @card.definition %></p>
+  </div>
 
-<p>
-  <strong>Word:</strong>
-  <%= @card.word %>
-</p>
+  <%= form_with model: @card, id: :card_form, local: false, url: "#{card_check_path}.json", method: :post, format: :json do |f| %>
+    <div class="m-3">
+        <%= f.text_field :word, value: nil, class: 'form-control w-50' %>
+    </div>
+    <%= f.submit 'Check', id: 'check_submit', class: 'btn btn-primary m-2' %>
+    <%= f.submit "Don't remember", id: 'show_answer_submit', class: 'btn btn-warning m-2' %>
+  <% end %>
+</div>
 
-<p>
-  <strong>User:</strong>
-  <%= @card.user_id %>
-</p>
 
-<p>
-  <strong>Definition:</strong>
-  <%= @card.definition %>
-</p>
 
-<%= link_to 'Back', cards_path %>
-<%= link_to 'Home', root_path %>
+<br>
+<%= link_to 'Next', get_random_card %>

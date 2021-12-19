@@ -1,9 +1,9 @@
 const Rails = require("@rails/ujs");
 
-window.addEventListener("load", () => {
+window.addEventListener("turbolinks:load", () => {
   const search_form = document.getElementById("search_form");
   if (search_form) {
-    window.addEventListener("ajax:success", (event) => { // для работы при переходе при помощи navbar
+    search_form.addEventListener("ajax:success", (event) => {
       const [_data, _status, xhr] = event.detail;
       let xhr_obj = JSON.parse(xhr.response);
       console.log(xhr_obj);
@@ -30,9 +30,23 @@ window.addEventListener("load", () => {
 
   const select = document.querySelector("#search_part_of_speech");
   const input_field = document.querySelector("#search_phrase");
-  input_field.addEventListener("change", () => {
+  input_field?.addEventListener("change", () => {
     select.innerHTML = '<option value="all">all</option>';
   });
+
+  const card_form = document.querySelector('#card_form');
+  if (card_form) {
+    card_form.addEventListener("ajax:success", (event) => { 
+      const [_data, _status, xhr] = event.detail;
+      let xhr_obj = JSON.parse(xhr.response);
+      console.log(xhr_obj);
+
+      show_result(xhr_obj.result);
+    });
+    card_form.addEventListener("ajax:error", () => {
+        document.querySelector("#table_placer").innerText = "Sorry, the server doesn't respond";
+    });
+  }
 });
 
 let fill_table = function (own_data, api_data) {
@@ -154,4 +168,11 @@ function add_link(word_index, meaning_index, def_index) {
     success: function(repsonse){ def_el.innerHTML += svg_ok; },
     error: function(repsonse){ alert("ERR") }
   })
+}
+
+function show_result(result) {
+  if (result.status === "correct")
+    alert("OK")
+  else
+    alert("Not OK!")
 }
