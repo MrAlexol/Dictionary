@@ -1,20 +1,10 @@
 class SearchesController < ApplicationController
-  def show
-    @search = Search.find(params[:id])
-  end
-
   def new
     @search = Search.new
     respond_to do |format|
       format.html
       format.js
     end
-    # @parts_of_speech = ['Noun', 'Verb', 'Adjective', 'Adverb', 'Number', 'Pronoun', 'Conjunction', 'Interjection', 'Prefix', 'Postfix', 'Exclamation']
-  end
-
-  def create
-    @search = Search.create(search_params)
-    redirect_to @search
   end
 
 private

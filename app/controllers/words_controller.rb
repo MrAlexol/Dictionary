@@ -19,13 +19,14 @@ class WordsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { @words = Word.all }
-        format.json do
-          word_list = make_word_list(word_search_params[:phrase])
-          if word_list.length == 1
-            redirect_to Word.search(word_list.keys[0])[0]
-          else
-            render json: word_list.to_json
+        if params[:search]
+          format.json do
+            word_list = make_word_list(word_search_params[:phrase])
+            if word_list.length == 1
+              redirect_to Word.search(word_list.keys[0])[0]
+            else
+              render json: word_list.to_json
+            end
           end
         end
       end
@@ -39,7 +40,6 @@ class WordsController < ApplicationController
       format.json do
         render json: { own: @word.to_json, api: @word_api }.as_json
       end
-      format.html
     end
   end
 
