@@ -1,14 +1,11 @@
-<p id="notice"><%= notice %></p>
+<h1>My cards</h1>
 
-<h1>Cards</h1>
-
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Word</th>
-      <th>User</th>
       <th>Definition</th>
-      <th colspan="3"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -16,10 +13,9 @@
     <% @cards.each do |card| %>
       <tr>
         <td><%= card.word %></td>
-        <td><%= card.user_id %></td>
         <td><%= card.definition %></td>
-        <td><%= link_to 'Show', card %></td>
-        <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td class="align-middle"><%= button_to 'Learn', card, type: :button, class: "btn btn-secondary", method: :get %></td>
+        <td class="align-middle"><%= button_to 'Delete', card, type: :button, class: "btn btn-danger", method: :delete %></td>
       </tr>
     <% end %>
   </tbody>

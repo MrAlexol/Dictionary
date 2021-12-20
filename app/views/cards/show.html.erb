@@ -23,7 +23,7 @@
   <% end %>
 </div>
 
-
-
 <br>
-<%= link_to 'Next', get_random_card %>
+<%= button_to 'Next', get_random_card, type: :button, class: "btn btn-success float-end", method: :get %>
+
+<%= render 'shared/lost_connection' %>

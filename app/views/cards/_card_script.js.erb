@@ -9,7 +9,7 @@ window.addEventListener("turbolinks:load", () => {
       show_result(xhr_obj);
     });
     card_form.addEventListener("ajax:error", () => {
-        document.querySelector("#table_placer").innerText = "Sorry, the server doesn't respond";
+      $('#problems_modal').modal('show');
     });
   }
 });

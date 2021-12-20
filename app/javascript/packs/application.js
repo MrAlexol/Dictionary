@@ -12,6 +12,5 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-//require("custom/ajax.js")
 import "bootstrap"
 import "../stylesheets/application"

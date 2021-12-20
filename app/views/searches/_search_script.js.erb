@@ -22,7 +22,8 @@ window.addEventListener("turbolinks:load", () => {
         show_options(xhr_obj);
     });
     search_form.addEventListener("ajax:error", () => {
-        document.querySelector("#table_placer").innerText = "Sorry, AJAX doesn't work";
+      $('#problems_modal').modal('show');
+      document.querySelector("#table_placer").innerText = "Sorry, no results can be shown";
     });
   }
 
@@ -148,13 +149,19 @@ function add_link(word_index, meaning_index, def_index) {
       "word": word_el.innerText,
       "definition": def_el.innerText,
   }};
-
   $.ajax({
     type: "POST", 
     beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
     url: "/cards",
     data: mydata,
-    success: function(data, textStatus, jqXHR){ def_el.innerHTML += svg_ok; },
-    error: function(jqXHR, textStatus, errorThrown){ alert(textStatus) }
+    success: function(data, textStatus, jqXHR) { def_el.innerHTML += svg_ok; },
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (errorThrown === "Unauthorized") {
+        $('#loginfirst_modal').modal('show');
+      }
+      else {
+        $('#problems_modal').modal('show');
+      }
+    }
   })
 }
