@@ -5,6 +5,10 @@ class SearchesController < ApplicationController
 
   def new
     @search = Search.new
+    respond_to do |format|
+      format.html
+      format.js
+    end
     # @parts_of_speech = ['Noun', 'Verb', 'Adjective', 'Adverb', 'Number', 'Pronoun', 'Conjunction', 'Interjection', 'Prefix', 'Postfix', 'Exclamation']
   end
 
