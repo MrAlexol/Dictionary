@@ -72,7 +72,7 @@ let fill_table = function (own_data, api_data) {
     thead.appendChild(groups_row);
     let groups_list = own_data?.groups?.split('|');
     groups_list?.forEach ( (el) => {
-      groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span>`;
+      groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span><span> </span>`;
     });
     
     const select = document.querySelector("#search_part_of_speech");
@@ -145,6 +145,7 @@ function add_link(word_index, meaning_index, def_index) {
       "word": word_el.innerText,
       "definition": def_el.innerText,
   }};
+  if (def_el.childElementCount === 0)
   $.ajax({
     type: "POST", 
     beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},

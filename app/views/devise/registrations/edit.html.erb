@@ -39,7 +39,7 @@
 
         <div class="mb-3">
           <%= f.label t("locale") %>
-          <%= f.select :locale, options_for_select(I18n.available_locales), {}, { class: 'form-select form-select-sm w-25' } %>
+          <%= f.select :locale, options_for_select([current_user.locale] + (I18n.available_locales.map(&:to_s) - [current_user.locale])), {}, { class: 'form-select form-select-sm w-25' } %>
         </div>
 
         <div class="actions">

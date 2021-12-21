@@ -2,8 +2,12 @@
 
 one:
   phrase: string
-  groups: W1S1
+  groups: W1|S1
 
 two:
   phrase: complicated
-  groups: W3S3
+  groups: W3|S3
+
+three:
+  phrase: food
+  groups: W2|S3

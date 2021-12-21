@@ -40,7 +40,7 @@ class CardsController < ApplicationController
   def destroy
     @card.destroy
     respond_to do |format|
-      format.html { redirect_to cards_url, notice: "Card was successfully destroyed." }
+      format.html { redirect_to cards_url, notice: I18n.t('cards.destroyed') }
       format.json { head :no_content }
     end
   end

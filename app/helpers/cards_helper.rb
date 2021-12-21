@@ -4,8 +4,10 @@ module CardsHelper
   end
 
   def make_respond(input, correct)
-    correct.gsub!(/ \(.*\)/, '')
-    return {status: 'correct'} if correct == input.strip
+    correct.gsub!(/ \(.*\)/, '').downcase!
+    input.strip!
+    input.downcase!
+    return { status: 'correct' } if correct == input
 
     {
       status: :incorrect,

@@ -40,6 +40,7 @@ ru:
       part_of_speech: "Часть речи"
       all: "Все"
   cards:
+    destroyed: "Карточка удалена"
     script:
       correct: "Верно!"
       almost_correct: "Почти верно! Правильный ответ:"

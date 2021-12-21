@@ -1,9 +1,12 @@
 require "application_system_test_case"
 
 class WordsTest < ApplicationSystemTestCase
+  setup do
+    @params = 'locale=en'
+  end
 
   test 'checking the right definition of a Word' do
-    visit root_url
+    visit "#{root_url}?#{@params}"
     fill_in 'search_phrase', with: 'complicated'
     click_on 'Search'
     definition = find('#def_row_0_0_0').text
@@ -12,7 +15,7 @@ class WordsTest < ApplicationSystemTestCase
   end
 
   test 'searching a Word' do
-    visit root_url
+    visit "#{root_url}?#{@params}"
     fill_in 'search_phrase', with: 'complicated'
     click_on 'Search'
     found_word = find('tr', match: :first).text.gsub(/ .*/, '')

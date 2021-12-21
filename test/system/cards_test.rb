@@ -15,12 +15,12 @@ class CardsTest < ApplicationSystemTestCase
 
   test 'creating a Card' do
     visit root_url
-    fill_in 'search_phrase', with: 'string'
+    fill_in 'search_phrase', with: 'food'
     click_on 'Search'
     find('.word_definition', match: :first).click
 
     visit cards_url
-    assert_text 'string'
+    assert_text 'food'
   end
 
   test 'learning a Card with correct answer' do
@@ -71,6 +71,6 @@ class CardsTest < ApplicationSystemTestCase
     visit cards_url
     click_on 'Delete', match: :first
 
-    assert_text 'Card was successfully destroyed'
+    assert_text 'Card has been deleted'
   end
 end

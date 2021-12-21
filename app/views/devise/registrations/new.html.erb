@@ -23,6 +23,11 @@
           <%= f.password_field :password_confirmation, class: 'form-control w-100 mt-1', placeholder: t("devise.confirm_ur_password"), autocomplete: "new-password" %>
         </div>
 
+        <div class="mb-3">
+          <%= f.label t("locale") %>
+          <%= f.select :locale, options_for_select(I18n.available_locales), {}, { class: 'form-select form-select-sm w-25' } %>
+        </div>
+
         <div class="actions">
           <%= f.submit t("sign_up"), class: 'btn btn-success mt-2 mb-2' %>
         </div>

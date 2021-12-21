@@ -40,6 +40,7 @@ en:
       part_of_speech: "Part of speech"
       all: "all"
   cards:
+    destroyed: "Card has been deleted"
     script:
       correct: "Correct!"
       almost_correct: "Almost correct! The right answer is"
