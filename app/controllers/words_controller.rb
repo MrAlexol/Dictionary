@@ -35,7 +35,7 @@ class WordsController < ApplicationController
 
   # GET /words/1 or /words/1.json
   def show
-    @word_api = HTTP.get("https://api.dictionaryapi.dev/api/v2/entries/en/#{@word.phrase}").body.to_s
+    @word_api = HTTP.get("#{Rails.application.config_for(:webapi)[:url]}/#{@word.phrase}").body.to_s
     respond_to do |format|
       format.json do
         render json: { own: @word.to_json, api: @word_api }.as_json

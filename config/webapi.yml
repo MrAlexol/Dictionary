@@ -1,0 +1,7 @@
+development:
+  environment: sandbox
+  url: https://api.dictionaryapi.dev/api/v2/entries/en
+
+test:
+  environment: garden
+  url: https://api.dictionaryapi.dev/api/v2/entries/en

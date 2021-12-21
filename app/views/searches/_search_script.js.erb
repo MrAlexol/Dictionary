@@ -92,7 +92,7 @@ let fill_table = function (own_data, api_data) {
       if (meaning.partOfSpeech === select.value || select.value == "all") {
         const word_row = document.createElement("tr");
         tbody.appendChild(word_row);
-        word_row.innerText = `${word.word} (${meaning.partOfSpeech})`;
+        word_row.innerHTML = `<strong>${word.word} (${meaning.partOfSpeech})</strong>`;
         word_row.id = `word_row_${word_index}_${meaning_index}`
         meaning.definitions.forEach( (definition, def_index) => {
           const def_row = document.createElement("tr");
@@ -102,7 +102,6 @@ let fill_table = function (own_data, api_data) {
           def_row.classList += "word_definition";
           def_row.addEventListener("click", () => {add_link(word_index, meaning_index, def_index); return false; });
           
-          // add_link(word_index, meaning_index, def_row);
           if (definition.example) {
             const example_row = document.createElement("tr");
             tbody.appendChild(example_row);

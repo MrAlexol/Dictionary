@@ -1,45 +1,23 @@
 require "application_system_test_case"
 
 class WordsTest < ApplicationSystemTestCase
-  setup do
-    @word = words(:one)
+
+  test 'checking the right definition of a Word' do
+    visit root_url
+    fill_in 'search_phrase', with: 'complicated'
+    click_on 'Search'
+    definition = find('#def_row_0_0_0').text
+
+    assert_equal 'consisting of many interconnecting parts or elements; intricate.', definition
   end
 
-  test "visiting the index" do
-    visit words_url
-    assert_selector "h1", text: "Words"
+  test 'searching a Word' do
+    visit root_url
+    fill_in 'search_phrase', with: 'complicated'
+    click_on 'Search'
+    found_word = find('tr', match: :first).text.gsub(/ .*/, '')
+
+    assert_equal 'complicated', found_word
   end
 
-  test "creating a Word" do
-    visit words_url
-    click_on "New Word"
-
-    fill_in "Groups", with: @word.groups
-    fill_in "Phrase", with: @word.phrase
-    click_on "Create Word"
-
-    assert_text "Word was successfully created"
-    click_on "Back"
-  end
-
-  test "updating a Word" do
-    visit words_url
-    click_on "Edit", match: :first
-
-    fill_in "Groups", with: @word.groups
-    fill_in "Phrase", with: @word.phrase
-    click_on "Update Word"
-
-    assert_text "Word was successfully updated"
-    click_on "Back"
-  end
-
-  test "destroying a Word" do
-    visit words_url
-    page.accept_confirm do
-      click_on "Destroy", match: :first
-    end
-
-    assert_text "Word was successfully destroyed"
-  end
 end

@@ -29,12 +29,9 @@
 # To learn more, please read the Rails Internationalization guide
 # available at https://guides.rubyonrails.org/i18n.html.
 
-en:
-  hello: "Hello world"
-  locale: "Language"
+ru:
+  hello: "Привет, мир!"
   searches:
     new:
-      search_header: "Search a word"
-      search: "Search"
-      phrase: "Word"
-      part_of_speech: "Part of speech"
+      search_header: "Поиск слова"
+      

@@ -1,11 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  word: one
-  user: one
-  definition: MyText
+  id: 1
+  word: "green (adjective)"
+  user_id: 2
+  definition: "a colour."
 
 two:
-  word: two
-  user: two
-  definition: MyText
+  id: 11
+  word: "red (adjective)"
+  user_id: 1
+  definition: "of a colour at the end of the spectrum next to orange and opposite violet, as of blood, fire, or rubies."

@@ -21,6 +21,7 @@ function show_result(respond) {
   card.querySelector("div.card-footer")?.remove();
   let card_body = document.querySelector("#my_card_body");
   let card_footer = document.createElement("div");
+  card_footer.id = "result_footer";
   card.appendChild(card_footer);
   card_footer.classList = "card-footer ";
 

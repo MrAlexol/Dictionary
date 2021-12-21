@@ -1,19 +1,19 @@
-<h1>Search</h1>
+<h3><%= t(".search_header") %></h3>
 <% content_for :script do %>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script> <%= render 'search_script.js' %> </script>
+    <script> <%= render partial: 'search_script', formats: [:js] %> </script>
 <% end %>
 
 <%= form_with model: @search, id: :search_form, local: false, url: "#{words_path}.json", method: :get, format: :json do |f| %>
-    <div class="mb-3">
-        <%= f.label :phrase %>
-        <%= f.search_field :phrase, class: 'form-control w-50', required: true %>
+    <div class="mb-3 w-50">
+        <%= f.label t(".phrase") %>
+        <%= f.search_field :phrase, class: 'form-control', required: true %>
     </div>
     <div class="mb-3">
-        <%= f.label :part_of_speech %>
+        <%= f.label t(".part_of_speech") %>
         <%= f.select :part_of_speech, options_for_select(['all']), {}, { class: 'form-select form-select-sm w-25' } %>
     </div>
-    <%= f.submit 'Search', id: 'search_submit', class: 'btn btn-primary' %>
+    <%= f.submit t(".search"), id: 'search_submit', class: 'btn btn-primary' %>
 <% end %>
 
 <div id="table_placer" class="mt-3">
