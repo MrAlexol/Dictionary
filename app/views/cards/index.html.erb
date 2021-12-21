@@ -1,10 +1,10 @@
-<h1>My cards</h1>
+<h3><%= t(".my_cards") %></h3>
 
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>Word</th>
-      <th>Definition</th>
+      <th><%= t(".word") %></th>
+      <th><%= t(".definition") %></th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -14,8 +14,8 @@
       <tr>
         <td><%= card.word %></td>
         <td><%= card.definition %></td>
-        <td class="align-middle"><%= button_to 'Learn', card, type: :button, class: "btn btn-secondary", method: :get %></td>
-        <td class="align-middle"><%= button_to 'Delete', card, type: :button, class: "btn btn-danger", method: :delete %></td>
+        <td class="align-middle"><%= button_to t(".learn"), card, type: :button, class: "btn btn-secondary", method: :get %></td>
+        <td class="align-middle"><%= button_to t(".delete"), card, type: :button, class: "btn btn-danger", method: :delete %></td>
       </tr>
     <% end %>
   </tbody>

@@ -34,7 +34,7 @@ function show_result(respond) {
       card.classList = "card border-success";
       card_body.classList = "card-body text-success";
       card_footer.classList += "text-white bg-success";
-      card_footer.innerText = "Correct!";
+      card_footer.innerText = "<%= t("cards.script.correct") %>";
       word_input.readOnly = true;
       btn_check.hidden = true;
       btn_dontrem.hidden = true;
@@ -43,20 +43,20 @@ function show_result(respond) {
       card.classList = "card border-warning";
       card_body.classList = "card-body";
       card_footer.classList += "bg-warning";
-      card_footer.innerHTML = `Almost correct! The right answer is <em>${result.answer}</em>`;
+      card_footer.innerHTML = `<%= t("cards.script.almost_correct") %> <em>${result.answer}</em>`;
     }
     else {
       card.classList = "card border-danger";
       card_body.classList = "card-body text-danger";
       card_footer.classList += "text-white bg-danger";
-      card_footer.innerText = "Not correct!";
+      card_footer.innerText = "<%= t("cards.script.not_correct") %>";
     }
   }
   else {
     card.classList = "card border-warning";
     card_body.classList = "card-body";
     card_footer.classList += "bg-warning";
-    card_footer.innerHTML = `Correct answer is <em>${result.answer}</em>`;
+    card_footer.innerHTML = `<%= t("cards.script.show_correct_is") %> <em>${result.answer}</em>`;
     btn_check.hidden = true;
     btn_dontrem.hidden = true;
     word_input.readOnly = true;

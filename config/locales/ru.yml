@@ -31,7 +31,70 @@
 
 ru:
   hello: "Привет, мир!"
+  locale: "Язык"
   searches:
     new:
       search_header: "Поиск слова"
-      
+      search: "Поиск"
+      phrase: "Слово"
+      part_of_speech: "Часть речи"
+      all: "Все"
+  cards:
+    script:
+      correct: "Верно!"
+      almost_correct: "Почти верно! Правильный ответ:"
+      not_correct: "Неверно!"
+      show_correct_is: "Правильный ответ:"
+    index:
+      my_cards: "Мои карточки"
+      word: "Слово"
+      definition: "Определение на английском"
+      learn: "Учить"
+      delete: "Удалить"
+    show:
+      guess: "Что это за слово?"
+      question: "Напишите, какое слово в английском языке имеет следующее определение:"
+      check_answer: "Проверить"
+      dont_remember_answer: "Показать ответ"
+      next_card: "Дальше"
+
+  application_name: "Словарь"
+  back: "Назад"
+  r_u_sure: "Вы уверены?"
+  lost_connection: "Соединение с сервером потеряно!"
+  problems_occured: "Возникли некоторые проблемы..."
+  close: "Закрыть"
+  please_login: "Пожалуйста, войдите или зарегистрируйтесь, чтобы это сделать."
+  u_r_not_authed: "Вы не авторизованы!"
+  no_results_error: "Извините, результаты невозможно показать результат"
+  no_results: "Ничего не нашлось"
+  maybe_u_meant: "Возможно, Вы имели в виду:"
+  sign_in: "Войти"
+  sign_up: "Зарегистрироваться"
+  sign_out: "Выйти"
+  my_cards: "Карточки"
+  my_profile: "Профиль"
+  learn: "Учить карточки"
+
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            current_password:
+              blank: "Введите %{attribute} для сохранения изменений"
+              invalid: "Введен неверный %{attribute}"
+            password:
+              too_short: "%{attribute} содержит мало символов"
+            email:
+              blank: "Пожалуйста, заполните %{attribute}"
+              invalid: "Введен неверный %{attribute}"
+            password_confirmation:
+              confirmation: "Пароли не совпадают"
+    models:
+      user: "Пользователь"
+    attributes:
+      user:
+        password: "Новый пароль"
+        current_password: "текущий пароль"
+        email: "электронную почту"

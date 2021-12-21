@@ -4,11 +4,7 @@ window.addEventListener("turbolinks:load", () => {
     search_form.addEventListener("ajax:success", (event) => {
       const [_data, _status, xhr] = event.detail;
       let xhr_obj = JSON.parse(xhr.response);
-      console.log(xhr_obj);
-      // console.log("API:");
-      // console.log(JSON.parse(xhr_obj.api));
-      // console.log("DB:");
-      // console.log(JSON.parse(xhr_obj.own));
+      <%# console.log(xhr_obj); %>
 
       if (xhr_obj.api && xhr_obj.own) {
         let own_data = JSON.parse(xhr_obj.own);
@@ -23,14 +19,14 @@ window.addEventListener("turbolinks:load", () => {
     });
     search_form.addEventListener("ajax:error", () => {
       $('#problems_modal').modal('show');
-      document.querySelector("#table_placer").innerText = "Sorry, no results can be shown";
+      document.querySelector("#table_placer").innerText = "<%= t("no_results_error") %>";
     });
   }
 
   const select = document.querySelector("#search_part_of_speech");
   const input_field = document.querySelector("#search_phrase");
   input_field?.addEventListener("change", () => {
-    select.innerHTML = '<option value="all">all</option>';
+    select.innerHTML = '<option value="all"><%= t("searches.new.all") %></option>';
   });
 });
 
@@ -120,11 +116,12 @@ let fill_table = function (own_data, api_data) {
 function show_options(options) {
   const div_place = document.querySelector("#table_placer");
   if (Object.keys(options).length > 0) {
-    div_place.innerText = "Maybe you meant:";
+    div_place.innerHTML = "<%= t("maybe_u_meant") %><br>";
     for (const key of Object.keys(options)) {    
-      const option = document.createElement("div");
+      const option = document.createElement("span");
+      option.classList += "opt";
       div_place.appendChild(option);
-      option.innerText = key;
+      option.innerText = key + '\n';
       option.addEventListener("click", () => {
         document.querySelector("#search_phrase").value = option.innerText;
         document.querySelector("#search_submit").click();
@@ -132,7 +129,7 @@ function show_options(options) {
     }
   }
   else {
-    div_place.innerText = "Nothing was found";
+    div_place.innerText = "<%= t("no_results") %>";
   }
 }
 

@@ -10,7 +10,7 @@ class CardsTest < ApplicationSystemTestCase
 
   test 'visiting the index' do
     visit cards_url
-    assert_selector 'h1', text: 'My cards'
+    assert_selector 'h3', text: 'My cards'
   end
 
   test 'creating a Card' do
@@ -62,7 +62,7 @@ class CardsTest < ApplicationSystemTestCase
 
     result = find('#result_footer', match: :first).text
 
-    assert_equal 'Not correct!', result
+    assert_equal 'Incorrect!', result
   end
 
   test 'destroying a Card' do

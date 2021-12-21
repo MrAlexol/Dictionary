@@ -3,11 +3,16 @@
     <h2>
       <%= I18n.t("errors.messages.not_saved",
                  count: resource.errors.count,
-                 resource: resource.class.model_name.human.downcase)
+                 resource: resource.class.model_name.human)
        %>
     </h2>
     <ul>
-      <% resource.errors.full_messages.each do |message| %>
+      <% if current_user.locale == 'ru' %>
+        <% err_list = resource.errors.messages.values.flatten %>
+      <% else %>
+        <% err_list = resource.errors.full_messages %>
+      <% end %>
+      <% err_list.each do |message| %>
         <li><%= message %></li>
       <% end %>
     </ul>

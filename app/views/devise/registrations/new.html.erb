@@ -1,30 +1,30 @@
 <div class="container w-50">
   <div class="card mb-3 w-100">
-    <h5 class="card-header">Sign Up</h5>
+    <h5 class="card-header"><%= t("sign_up") %></h5>
     <div class="card-body">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
 
         <div class="field form-group">
-          <%= f.label :email %><em> (it will be used as username)</em><br />
-          <%= f.email_field :email, class: 'form-control w-100 mt-2 mb-2', placeholder: 'Your email', autofocus: true, autocomplete: "email" %>
+          <%= f.label t("devise.email") %><em> (<%= t(".it_will_be_used_as_username") %>)</em><br />
+          <%= f.email_field :email, class: 'form-control w-100 mt-2 mb-2', placeholder: t("devise.ur_email"), autofocus: true, autocomplete: "email" %>
         </div>
 
         <div class="field form-group">
-          <%= f.label :password %>
+          <%= f.label t("devise.password") %>
           <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <em>(<%= @minimum_password_length %> <%= t("devise.chars_min") %>)</em>
           <% end %><br />
-          <%= f.password_field :password, class: 'form-control w-100 mt-2', placeholder: 'Password', autocomplete: "new-password" %>
+          <%= f.password_field :password, class: 'form-control w-100 mt-2', placeholder: t("devise.password"), autocomplete: "new-password" %>
         </div>
 
         <div class="field form-group">
-          <% f.label :password_confirmation %>
-          <%= f.password_field :password_confirmation, class: 'form-control w-100 mt-1', placeholder: 'Confirm your password', autocomplete: "new-password" %>
+          <% f.label t("devise.password_confirm") %>
+          <%= f.password_field :password_confirmation, class: 'form-control w-100 mt-1', placeholder: t("devise.confirm_ur_password"), autocomplete: "new-password" %>
         </div>
 
         <div class="actions">
-          <%= f.submit "Sign up", class: 'btn btn-success mt-2 mb-2' %>
+          <%= f.submit t("sign_up"), class: 'btn btn-success mt-2 mb-2' %>
         </div>
       <% end %>
     </div>

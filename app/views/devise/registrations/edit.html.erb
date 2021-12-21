@@ -5,13 +5,13 @@
 
 <div class="container w-50">
   <div class="card mb-3 w-100">
-    <h5 class="card-header">Edit Profile</h5>
+    <h5 class="card-header"><%= t(".edit_profile") %></h5>
     <div class="card-body">
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
 
         <div class="field form-group">
-          <%= f.label :email %><br />
+          <%= f.label t("devise.email") %><br />
           <%= f.email_field :email, class: 'form-control', autocomplete: "email" %>
         </div>
 
@@ -20,20 +20,20 @@
         <% end %>
 
         <div class="field form-group">
-          <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+          <%= f.label t("devise.password") %> <i>(<%= t(".leave_blank") %>)</i><br />
           <%= f.password_field :password, class: 'form-control', autocomplete: "new-password" %>
           <% if @minimum_password_length %>
-            <em><%= @minimum_password_length %> characters minimum</em>
+            <em><%= @minimum_password_length %> <%= t("devise.chars_min") %></em>
           <% end %>
         </div>
 
         <div class="field form-group">
-          <%= f.label :password_confirmation %><br />
+          <%= f.label t("devise.password_confirm") %><br />
           <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: "new-password" %>
         </div>
 
         <div class="field form-group">
-          <%= f.label :current_password %> <em>(we need your current password to confirm your changes)</em><br />
+          <%= f.label t(".password_current") %> <em>(<%= t(".we_need_your_password") %>)</em><br />
           <%= f.password_field :current_password, class: 'form-control', autocomplete: "current-password" %>
         </div>
 
@@ -43,19 +43,19 @@
         </div>
 
         <div class="actions">
-          <%= f.submit "Update", class: 'btn btn-secondary mt-2' %>
+          <%= f.submit t(".update"), class: 'btn btn-secondary mt-2' %>
         </div>
 
       <% end %>
       
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-danger mt-2" data-toggle="modal" data-target="#confirm_action">
-        Delete my account
+        <%= t(".delete") %>
       </button>
       
     </div>
   </div>
-  <%= link_to "Back", :back %>
+  <%= link_to t("back"), :back %>
 </div>
 
 
@@ -65,17 +65,17 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Are you sure?</h5>
+        <h5 class="modal-title" id="exampleModalCenterTitle"><%= t("r_u_sure") %></h5>
         <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        Your account will be deleted!
+        <%= t(".acc_will_be_deleted") %>
       </div>
       <div class="modal-footer">
-        <%= button_to "Delete my account", registration_path(resource_name), method: :delete, class: 'btn btn-danger' %>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= button_to t(".delete"), registration_path(resource_name), method: :delete, class: 'btn btn-danger' %>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= t("close") %></button>
       </div>
     </div>
   </div>
