@@ -13,10 +13,6 @@ class Word < ApplicationRecord
   end
 
   def self.search(search)
-    if search
-      where(phrase: search)
-    else
-      nil
-    end
+    find_by phrase: search if search
   end
 end

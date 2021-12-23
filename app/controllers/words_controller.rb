@@ -8,7 +8,7 @@ class WordsController < ApplicationController
   # GET /words or /words.json
   def index
     search_word = word_search_params[:phrase].length <= 1 ? word_search_params[:phrase] : word_search_params[:phrase].downcase
-    @word = Word.search(search_word)[0]
+    @word = Word.search(search_word)
   rescue ActionController::ParameterMissing
     puts 'no params'
   ensure
@@ -29,6 +29,7 @@ class WordsController < ApplicationController
             end
           end
         end
+        format.json { head :no_content, status: :success }
       end
     end
   end

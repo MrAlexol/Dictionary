@@ -5,44 +5,20 @@ class WordsControllerTest < ActionDispatch::IntegrationTest
     @word = words(:one)
   end
 
-  test "should get index" do
-    get words_url
+  test 'should search words when getting index' do
+    search_phrase = 'food'
+    get words_url, params: { search: { phrase: search_phrase, part_of_speech: 'all' } }
+    assert_redirected_to Word.search(search_phrase)
+  end
+
+  test "shouldn't search words without any params" do
+    get words_url, params: { format: :json }
+    assert_response 204
+  end
+
+  test 'should show word in json' do
+    get "#{words_url}/#{@word.id}", params: { format: :json }
+    #get words_url(@word) #, params: { search: { phrase: @word.phrase, part_of_speech: 'all' } }
     assert_response :success
-  end
-
-  test "should get new" do
-    get new_word_url
-    assert_response :success
-  end
-
-  test "should create word" do
-    assert_difference('Word.count') do
-      post words_url, params: { word: { groups: @word.groups, phrase: @word.phrase } }
-    end
-
-    assert_redirected_to word_url(Word.last)
-  end
-
-  test "should show word" do
-    get word_url(@word)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_word_url(@word)
-    assert_response :success
-  end
-
-  test "should update word" do
-    patch word_url(@word), params: { word: { groups: @word.groups, phrase: @word.phrase } }
-    assert_redirected_to word_url(@word)
-  end
-
-  test "should destroy word" do
-    assert_difference('Word.count', -1) do
-      delete word_url(@word)
-    end
-
-    assert_redirected_to words_url
   end
 end

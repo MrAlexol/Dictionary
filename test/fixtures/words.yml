@@ -1,12 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 1
   phrase: string
   groups: W1|S1
 
 two:
+  id: 2
   phrase: complicated
   groups: W3|S3
 
 three:
+  id: 3
   phrase: food

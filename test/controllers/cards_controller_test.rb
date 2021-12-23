@@ -1,44 +1,41 @@
 require "test_helper"
 
 class CardsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   setup do
     @card = cards(:one)
+    @user = users(:one)
   end
 
-  test "should get index" do
+  test 'authorized user should get index' do
+    sign_in @user
     get cards_url
     assert_response :success
   end
 
-  test "should get new" do
-    get new_card_url
+  test "unauthorized user shouldn't get index" do
+    get cards_url
+    assert_redirected_to new_user_session_url
+  end
+
+  test 'should create card' do
+    sign_in @user
+    assert_difference('Card.count') do
+      post cards_url, params: { card: { definition: @card.definition,
+                                        user_id: @card.user_id,
+                                        word: @card.word } }
+    end
     assert_response :success
   end
 
-  test "should create card" do
-    assert_difference('Card.count') do
-      post cards_url, params: { card: { definition: @card.definition, user_id: @card.user_id, word_id: @card.word_id } }
-    end
-
-    assert_redirected_to card_url(Card.last)
-  end
-
-  test "should show card" do
+  test 'user should show his card' do
+    sign_in @user
     get card_url(@card)
     assert_response :success
   end
 
-  test "should get edit" do
-    get edit_card_url(@card)
-    assert_response :success
-  end
-
-  test "should update card" do
-    patch card_url(@card), params: { card: { definition: @card.definition, user_id: @card.user_id, word_id: @card.word_id } }
-    assert_redirected_to card_url(@card)
-  end
-
-  test "should destroy card" do
+  test 'user should destroy his card' do
+    sign_in @user
     assert_difference('Card.count', -1) do
       delete card_url(@card)
     end
