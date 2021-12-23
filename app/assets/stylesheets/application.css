@@ -13,3 +13,55 @@
  *= require_tree .
  *= require_self
  */
+
+ .word_definition:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+
+a.hidden_link {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.opt:hover {
+    cursor: pointer;
+}
+
+@media (min-width: 1000px) { /* самый большой */
+    .input_field {
+        max-width: 40%;
+    }
+    .input_card {
+        max-width: 50%;
+        margin: auto;
+    }
+    main {
+        margin-bottom: 12%;
+    }
+}
+
+@media (max-width: 1000px) { /* средний */
+    .input_field {
+        max-width: 70%;
+    }
+    .input_card {
+        max-width: 95%;
+        margin: auto;
+    }
+    main {
+        margin-bottom: 7%;
+    }
+}
+
+@media (max-width: 400px) { /* маленький */
+    .input_field {
+        max-width: 100%;
+    }
+    .input_card {
+        max-width: 100%;
+    }
+    .hide_me {
+        display: none;
+    }
+}

@@ -77,6 +77,9 @@ ru:
   my_profile: "Профиль"
   learn: "Учить карточки"
 
+  ru: "Русский"
+  en: "Английский"
+
   activerecord:
     errors:
       models:
@@ -90,6 +93,7 @@ ru:
             email:
               blank: "Пожалуйста, заполните %{attribute}"
               invalid: "Введен неверный %{attribute}"
+              taken: "Электронная почта уже занята другим пользователем"
             password_confirmation:
               confirmation: "Пароли не совпадают"
     models:

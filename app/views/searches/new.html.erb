@@ -5,13 +5,13 @@
 <% end %>
 
 <%= form_with model: @search, id: :search_form, local: false, url: "#{words_path}.json", method: :get, format: :json do |f| %>
-    <div class="mb-3 w-50">
+    <div class="mb-3">
         <%= f.label t(".phrase") %>
-        <%= f.search_field :phrase, class: 'form-control', required: true %>
+        <%= f.search_field :phrase, class: 'form-control input_field', required: true %>
     </div>
     <div class="mb-3">
         <%= f.label t(".part_of_speech") %>
-        <%= f.select :part_of_speech, options_for_select([t(".all")]), {}, { class: 'form-select form-select-sm w-25' } %>
+        <%= f.select :part_of_speech, options_for_select([t(".all")]), {}, { class: 'form-select form-select-sm input_field' } %>
     </div>
     <%= f.submit t(".search"), id: 'search_submit', class: 'btn btn-primary' %>
 <% end %>

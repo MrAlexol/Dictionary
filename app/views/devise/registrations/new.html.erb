@@ -1,39 +1,43 @@
-<div class="container w-50">
-  <div class="card mb-3 w-100">
-    <h5 class="card-header"><%= t("sign_up") %></h5>
-    <div class="card-body">
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
 
-        <div class="field form-group">
-          <%= f.label t("devise.email") %><em> (<%= t(".it_will_be_used_as_username") %>)</em><br />
-          <%= f.email_field :email, class: 'form-control w-100 mt-2 mb-2', placeholder: t("devise.ur_email"), autofocus: true, autocomplete: "email" %>
-        </div>
+<div class="card mb-3 input_card">
+  <h5 class="card-header"><%= t("sign_up") %></h5>
+  <div class="card-body">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-        <div class="field form-group">
-          <%= f.label t("devise.password") %>
-          <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> <%= t("devise.chars_min") %>)</em>
-          <% end %><br />
-          <%= f.password_field :password, class: 'form-control w-100 mt-2', placeholder: t("devise.password"), autocomplete: "new-password" %>
-        </div>
+      <div class="field form-group">
+        <%= f.label t("devise.email") %> <em>(<%= t(".it_will_be_used_as_username") %>)</em><br />
+        <%= f.email_field :email, class: 'form-control w-100 mt-2 mb-2', placeholder: t("devise.ur_email"), autofocus: true, autocomplete: "email" %>
+      </div>
 
-        <div class="field form-group">
-          <% f.label t("devise.password_confirm") %>
-          <%= f.password_field :password_confirmation, class: 'form-control w-100 mt-1', placeholder: t("devise.confirm_ur_password"), autocomplete: "new-password" %>
-        </div>
+      <div class="field form-group">
+        <%= f.label t("devise.password") %>
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> <%= t("devise.chars_min") %>)</em>
+        <% end %><br />
+        <%= f.password_field :password, class: 'form-control w-100 mt-2', placeholder: t("devise.password"), autocomplete: "new-password" %>
+      </div>
 
-        <div class="mb-3">
-          <%= f.label t("locale") %>
-          <%= f.select :locale, options_for_select(I18n.available_locales), {}, { class: 'form-select form-select-sm w-25' } %>
-        </div>
+      <div class="field form-group">
+        <% f.label t("devise.password_confirm") %>
+        <%= f.password_field :password_confirmation, class: 'form-control w-100 mt-1', placeholder: t("devise.confirm_ur_password"), autocomplete: "new-password" %>
+      </div>
 
-        <div class="actions">
-          <%= f.submit t("sign_up"), class: 'btn btn-success mt-2 mb-2' %>
-        </div>
-      <% end %>
-    </div>
+      <div class="mb-3">
+        <%= f.label t("locale") %>
+        <% locales = I18n.available_locales.each.each_with_object({}) do |locale, acc| %>
+          <% acc[t(locale)] = locale %>
+        <% end %>
+        <%= f.select :locale, locales, {}, { class: 'form-select form-select-sm input_field' } %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit t("sign_up"), class: 'btn btn-success mt-2 mb-2' %>
+      </div>
+    <% end %>
   </div>
 
-  <%= render "devise/shared/links" %>
+  <div class="m-3 mt-0">
+    <%= render "devise/shared/links" %>
+  <div>
 </div>

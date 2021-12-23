@@ -5,7 +5,7 @@ class CardsController < ApplicationController
 
   # GET /cards or /cards.json
   def index
-    @cards = Card.where(user_id: current_user)
+    @cards = Card.where(user_id: current_user).order(created_at: :desc)
   end
 
   # GET /cards/1 or /cards/1.json

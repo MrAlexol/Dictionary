@@ -16,7 +16,7 @@
 
   <%= form_with model: @card, id: :card_form, local: false, url: "#{card_check_path}.json", method: :post, format: :json do |f| %>
     <div class="m-3">
-        <%= f.text_field :word, value: nil, class: 'form-control w-50' %>
+        <%= f.text_field :word, value: nil, class: 'form-control input_field' %>
     </div>
     <%= button_tag t(".check_answer"), id: 'check_submit', class: 'btn btn-primary m-2', type: 'submit', value: 'Check' %>
     <%= button_tag t(".dont_remember_answer"), id: 'show_answer_submit', class: 'btn btn-warning m-2', type: 'submit', value: "Don't remember" %>

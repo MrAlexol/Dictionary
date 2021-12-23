@@ -91,8 +91,10 @@ let fill_table = function (own_data, api_data) {
         word_row.innerHTML = `<strong>${word.word} (${meaning.partOfSpeech})</strong>`;
         word_row.id = `word_row_${word_index}_${meaning_index}`
         meaning.definitions.forEach( (definition, def_index) => {
-          const def_row = document.createElement("tr");
-          tbody.appendChild(def_row);
+          const def_tr = document.createElement("tr");
+          tbody.appendChild(def_tr);
+          const def_row = document.createElement("span");
+          def_tr.appendChild(def_row);
           def_row.innerText = definition.definition;
           def_row.id = `def_row_${word_index}_${meaning_index}_${def_index}`;
           def_row.classList += "word_definition";

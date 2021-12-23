@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th><%= t(".word") %></th>
-      <th><%= t(".definition") %></th>
+      <th class="hide_me"><%= t(".definition") %></th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -13,7 +13,7 @@
     <% @cards.each do |card| %>
       <tr>
         <td><%= card.word %></td>
-        <td><%= card.definition %></td>
+        <td class="hide_me"><%= card.definition %></td>
         <td class="align-middle"><%= button_to t(".learn"), card, type: :button, class: "btn btn-secondary", method: :get %></td>
         <td class="align-middle"><%= button_to t(".delete"), card, type: :button, class: "btn btn-danger", method: :delete %></td>
       </tr>

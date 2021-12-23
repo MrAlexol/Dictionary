@@ -7,7 +7,7 @@
        %>
     </h2>
     <ul>
-      <% if current_user && current_user.locale == 'ru' %>
+      <% if I18n.locale == :ru %>
         <% err_list = resource.errors.messages.values.flatten %>
       <% else %>
         <% err_list = resource.errors.full_messages %>
