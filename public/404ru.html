@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>HTTP Forbidden (403)</title>
+  <title>Страница не существует (ошибка 404)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
   .rails-default-error-page {
+    background-color: #FFFFFF;
     color: #2E2F30;
     text-align: center;
     font-family: arial, sans-serif;
@@ -54,13 +55,14 @@
 </head>
 
 <body class="rails-default-error-page">
+  <!-- This file lives in public/404.html -->
   <div class="dialog">
     <div>
-      <h1>The page you were looking for isn't available for you.</h1>
-      <p>Only users with admin status can see this page.</p>
+      <h1>Страница, которую Вы ищете, не существует</h1>
+      <p>Возможно, Вы ошиблись при вводе в адресной строке или страница поменяла свое расположение.</p>
     </div>
-    <p>If you do have access to this page, contact the server administator.</p>
-    <img src="https://cdn.dribbble.com/users/550484/screenshots/2399482/media/37a411831e5379e99ca7e9ac46411a11.gif" style="width: 300px; min-width: 40%;" alt="Forbidden, sorry!">
+    <p>Если Вы считаете, что эта ошибка не должна была возникнуть, обратитесь к системному администратору.</p>
   </div>
+  <img src="https://cdn.dribbble.com/users/550484/screenshots/2399482/media/37a411831e5379e99ca7e9ac46411a11.gif" style="width: 300px; min-width: 40%;" alt="Forbidden, sorry!">
 </body>
 </html>

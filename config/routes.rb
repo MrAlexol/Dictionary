@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   get 'auth/register', to: 'searches#new'
   devise_for :users, path: 'auth', path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verification', unlock: 'unblock', registration: 'register', sign_up: 'cmon_let_me_in' }
   resources :words, only: %i[show index]
+  match '*unmatched', to: 'application#not_found_no_logs', via: :all
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

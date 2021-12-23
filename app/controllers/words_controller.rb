@@ -13,13 +13,8 @@ class WordsController < ApplicationController
         found = Word.search(search_word) || make_word_list(search_word)
         if found.is_a? Hash
           if found.length == 1
-            p '+'*100
-            p found.keys[0]
             format.json { redirect_to Word.search(found.keys[0]) }
           else
-            p 'hereHERE'
-            p found
-            p found.to_json
             format.json { render json: found.to_json }
           end
         else
