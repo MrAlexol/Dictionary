@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class WordsControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -7,7 +7,7 @@ class WordsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should search words when getting index' do
     search_phrase = 'food'
-    get words_url, params: { search: { phrase: search_phrase, part_of_speech: 'all' } }
+    get words_url, params: { search: { phrase: search_phrase, part_of_speech: 'all' }, format: :json }
     assert_redirected_to Word.search(search_phrase)
   end
 
@@ -18,7 +18,6 @@ class WordsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should show word in json' do
     get "#{words_url}/#{@word.id}", params: { format: :json }
-    #get words_url(@word) #, params: { search: { phrase: @word.phrase, part_of_speech: 'all' } }
     assert_response :success
   end
 end

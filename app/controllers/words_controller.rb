@@ -7,29 +7,27 @@ class WordsController < ApplicationController
 
   # GET /words or /words.json
   def index
-    search_word = word_search_params[:phrase].length <= 1 ? word_search_params[:phrase] : word_search_params[:phrase].downcase
-    @word = Word.search(search_word)
-  rescue ActionController::ParameterMissing
-    puts 'no params'
-  ensure
-    if @word
-      respond_to do |format|
-        format.html { redirect_to @word }
-        format.json { redirect_to @word, format: :json } # render :show, status: :created, location: @word
-      end
-    else
-      respond_to do |format|
-        if params[:search]
-          format.json do
-            word_list = make_word_list(word_search_params[:phrase])
-            if word_list.length == 1
-              redirect_to Word.search(word_list.keys[0])[0]
-            else
-              render json: word_list.to_json
-            end
+    respond_to do |format|
+      if params[:search]
+        search_word = word_search_params[:phrase]
+        found = Word.search(search_word) || make_word_list(search_word)
+        if found.is_a? Hash
+          if found.length == 1
+            p '+'*100
+            p found.keys[0]
+            format.json { redirect_to Word.search(found.keys[0]) }
+          else
+            p 'hereHERE'
+            p found
+            p found.to_json
+            format.json { render json: found.to_json }
           end
+        else
+          format.json { redirect_to found, format: :json }
         end
+      else
         format.json { head :no_content, status: :success }
+        format.html { head :no_content, status: :success }
       end
     end
   end
@@ -91,17 +89,20 @@ class WordsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_word
-      @word = Word.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_word
+    @word = Word.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def word_params
-      params.require(:word).permit(:phrase, :groups)
-    end
+  # Only allow a list of trusted parameters through.
+  def word_params
+    params.require(:word).permit(:phrase, :groups)
+  end
 
-    def word_search_params
-      params.require(:search).permit(:phrase, :part_of_speech)
-    end
+  # Only allow a list of trusted parameters for search.
+  def word_search_params
+    phrase = params[:search][:phrase]
+    params[:search][:phrase] = phrase.length <= 1 ? phrase : phrase.downcase
+    params.require(:search).permit(:phrase, :part_of_speech)
+  end
 end
