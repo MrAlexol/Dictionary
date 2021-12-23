@@ -1,12 +1,4 @@
 class Search < ApplicationRecord
-  self.inheritance_column = 'not_sti'
-
-  def search_word
-    word = Word.all
-
-    word = word.where(phrase: phrase)
-
-
-    word
-  end 
+  validates :phrase, presence: true
+  validates :part_of_speech, presence: true
 end

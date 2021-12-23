@@ -1,11 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  phrase: MyString
-  groups: MyString
-  part_of_speech: MyString
+  phrase: Run
+  part_of_speech: verb
 
 two:
-  phrase: MyString
-  groups: MyString
-  part_of_speech: MyString
+  phrase: Hello
+  part_of_speech: noun
+
+three:
+  phrase: Hello
+  part_of_speech: all

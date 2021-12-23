@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_20_191023) do
+ActiveRecord::Schema.define(version: 2021_12_23_095926) do
 
   create_table "cards", force: :cascade do |t|
     t.string "word", null: false
@@ -23,10 +23,7 @@ ActiveRecord::Schema.define(version: 2021_12_20_191023) do
 
   create_table "searches", force: :cascade do |t|
     t.string "phrase"
-    t.string "groups"
     t.string "part_of_speech"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

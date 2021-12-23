@@ -17,3 +17,4 @@ two:
   email: "liza.roz@yandex.ru"
   created_at: "2021-12-19 21:01:55 +0000"
   updated_at: "2021-12-19 21:01:55 +0000"
+  locale: "ru"
