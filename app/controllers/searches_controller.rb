@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Searches controller. Interacts with any user
 class SearchesController < ApplicationController
   def new
     @search = Search.new
@@ -7,7 +10,7 @@ class SearchesController < ApplicationController
     end
   end
 
-private
+  private
 
   def search_params
     params.require(:search).permit(:phrase, :groups, :part_of_speech)

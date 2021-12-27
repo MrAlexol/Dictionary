@@ -12,9 +12,8 @@
   <tbody>
     <% @cards.each do |card| %>
       <tr>
-        <td><%= card.word %></td>
+        <td><%= link_to card.word, card, class: 'hidden_link' %></td>
         <td class="hide_me"><%= card.definition %></td>
-        <td class="align-middle"><%= button_to t(".learn"), card, type: :button, class: "btn btn-secondary", method: :get %></td>
         <td class="align-middle"><%= button_to t(".delete"), card, type: :button, class: "btn btn-danger", method: :delete %></td>
       </tr>
     <% end %>

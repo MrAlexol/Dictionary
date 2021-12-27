@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# App controller. Handles errors and manages localization
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   around_action :switch_locale
@@ -5,7 +8,6 @@ class ApplicationController < ActionController::Base
 
   def switch_locale(&action)
     locale = current_user[:locale] if current_user
-    I18n.available_locales
     params_locale = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
     locale ||= params_locale || locale_from_header || I18n.default_locale
     I18n.with_locale(locale, &action)

@@ -54,7 +54,7 @@ a.hidden_link {
     }
 }
 
-@media (max-width: 400px) { /* маленький */
+@media (max-width: 500px) { /* маленький */
     .input_field {
         max-width: 100%;
     }

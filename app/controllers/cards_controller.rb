@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Cards controller. It interacts with users
 class CardsController < ApplicationController
   include CardsHelper
   before_action :set_card, only: %i[show destroy check]
@@ -16,7 +19,9 @@ class CardsController < ApplicationController
   # POST /cards/1/check.json
   def check
     respond_to do |format|
-      format.json { render json: { result: make_respond(card_params[:word], @card.word).as_json, for: params[:button] }.as_json }
+      format.json do
+        render json: { result: make_respond(card_params[:word], @card.word).as_json, for: params[:button] }.as_json
+      end
     end
   end
 
@@ -46,13 +51,14 @@ class CardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_card
-      @card = Card.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def card_params
-      params.require(:card).permit(:word, :definition)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_card
+    @card = Card.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def card_params
+    params.require(:card).permit(:word, :definition)
+  end
 end
