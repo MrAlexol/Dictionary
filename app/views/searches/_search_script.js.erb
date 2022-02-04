@@ -1,27 +1,28 @@
 window.addEventListener("turbolinks:load", () => {
   const search_form = document.getElementById("search_form");
-  if (search_form) {
-    search_form.addEventListener("ajax:success", (event) => {
-      const [_data, _status, xhr] = event.detail;
-      let xhr_obj = JSON.parse(xhr.response);
-      <%# console.log(xhr_obj); %>
 
+  search_form.addEventListener("ajax:success", (event) => {
+    const [_data, _status, xhr] = event.detail;
+    let xhr_obj = JSON.parse(xhr.response);
+
+    if (xhr_obj.error === true) {
+        handle_error(xhr_obj);
+    }
+    else {
       if (xhr_obj.api && xhr_obj.own) {
         let own_data = JSON.parse(xhr_obj.own);
         let api_data = JSON.parse(xhr_obj.api);
-        if (Array.isArray(api_data))
-          fill_table(own_data, api_data);
-        else
-          show_options({});
+
+        fill_table(own_data, api_data);
       }
       else
-        show_options(xhr_obj);
-    });
-    search_form.addEventListener("ajax:error", () => {
-      $('#problems_modal').modal('show');
-      document.querySelector("#table_placer").innerText = "<%= t("no_results_error") %>";
-    });
-  }
+        show_options(xhr_obj); // Пришел хеш с выборкой возможных слов
+    }
+  });
+  search_form.addEventListener("ajax:error", () => {
+    $('#problems_modal').modal('show');
+    document.querySelector("#table_placer").innerText = "<%= t("no_results_error") %>";
+  });
 
   const select = document.querySelector("#search_part_of_speech");
   const input_field = document.querySelector("#search_phrase");
@@ -117,21 +118,17 @@ let fill_table = function (own_data, api_data) {
 
 function show_options(options) {
   const div_place = document.querySelector("#table_placer");
-  if (Object.keys(options).length > 0) {
-    div_place.innerHTML = "<%= t("maybe_u_meant") %><br>";
-    for (const key of Object.keys(options)) {    
-      const option = document.createElement("span");
-      option.classList += "opt";
-      div_place.appendChild(option);
-      option.innerText = key + '\n';
-      option.addEventListener("click", () => {
-        document.querySelector("#search_phrase").value = option.innerText;
-        document.querySelector("#search_submit").click();
-      })
-    }
-  }
-  else {
-    div_place.innerText = "<%= t("no_results") %>";
+
+  div_place.innerHTML = "<%= t("maybe_u_meant") %><br>";
+  for (const key of Object.keys(options)) {    
+    const option = document.createElement("span");
+    option.classList += "opt";
+    div_place.appendChild(option);
+    option.innerText = key + '\n';
+    option.addEventListener("click", () => {
+      document.querySelector("#search_phrase").value = option.innerText;
+      document.querySelector("#search_submit").click();
+    })
   }
 }
 
@@ -163,4 +160,19 @@ function add_link(word_index, meaning_index, def_index) {
       }
     }
   })
+}
+
+function handle_error(error_obj) {
+  const div_place = document.querySelector("#table_placer");
+  switch (error_obj.message) {
+    case "API GET failed":
+      div_place.innerText = "<%= t("service_is_down") %>";
+      break;
+    case "Word not found":
+      div_place.innerText = "<%= t("no_results") %>";
+      break;
+    default:
+      console.error('Unknown error. Please, contact server administrators.');
+      break;
+  }
 }

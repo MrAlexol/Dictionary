@@ -69,6 +69,7 @@ en:
   u_r_not_authed: "You are not authorized"
   no_results_error: "Sorry, no results can be shown"
   no_results: "Nothing was found, sorry"
+  service_is_down: "Sorry, dictionary services are unavailable now"
   maybe_u_meant: "Maybe you meant:"
   sign_in: "Sign in"
   sign_up: "Sign up"

@@ -15,10 +15,13 @@ class WordsController < ApplicationController
         search_word = word_search_params[:phrase]
         found = Word.search(search_word) || make_word_list(search_word)
         if found.is_a? Hash
-          if found.length == 1
-            format.json { redirect_to Word.search(found.keys[0]) }
-          else
-            format.json { render json: found.to_json }
+          case found.length
+          when 0
+            format.json do
+              render json: { error: true, message: 'Word not found' }.as_json
+            end
+          when 1 then format.json { redirect_to Word.search(found.keys[0]) }
+          else format.json { render json: found.to_json }
           end
         else
           format.json { redirect_to found, format: :json }
@@ -32,11 +35,16 @@ class WordsController < ApplicationController
 
   # GET /words/1 or /words/1.json
   def show
-    @word_api = HTTP.get("#{Rails.application.config_for(:webapi)[:url]}/#{@word.phrase}").to_s
-    # добавить обработку ошибок TODO
+    word_api = HTTP.get("#{Rails.application.config_for(:webapi)[:url]}/#{@word.phrase}").to_s
+    raise StandardError if word_api[0] != '['
+
+    prepared_respond = { own: @word.to_json, api: word_api }.as_json
+  rescue StandardError
+    prepared_respond = '{"error": true, "message": "API GET failed"}'
+  ensure
     respond_to do |format|
       format.json do
-        render json: { own: @word.to_json, api: @word_api }.as_json
+        render json: prepared_respond
       end
       format.html { head :no_content, status: :success }
     end
