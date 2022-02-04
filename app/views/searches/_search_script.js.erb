@@ -1,7 +1,16 @@
 window.addEventListener("turbolinks:load", () => {
   const search_form = document.getElementById("search_form");
+  if (!search_form) return;
+
+  let timeoutID;
+  search_form.addEventListener("submit", () => {
+    timeoutID = window.setTimeout(show_loading_circle, 150);
+  })
 
   search_form.addEventListener("ajax:success", (event) => {
+    window.clearTimeout(timeoutID);
+    hide_loading_circle();
+
     const [_data, _status, xhr] = event.detail;
     let xhr_obj = JSON.parse(xhr.response);
 
@@ -31,7 +40,17 @@ window.addEventListener("turbolinks:load", () => {
   });
 });
 
-let fill_table = function (own_data, api_data) {
+function show_loading_circle() {
+  const place = document.querySelector("#progress_placer");
+  place.classList = "loader align-middle ms-1";
+}
+
+function hide_loading_circle() {
+  const place = document.querySelector("#progress_placer");
+  place.classList = "";
+}
+
+function fill_table(own_data, api_data) {
   const div_place = document.querySelector("#table_placer");
   div_place.innerText = "";
   

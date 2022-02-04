@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- Modal which contains a partial -->
 <div class="modal fade" id="loginfirst_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -10,6 +10,8 @@
       </div>
       <div class="modal-body">
         <%= t("please_login") %>
+        <%# This works because of Searches helper %>
+        <%= render "devise/shared/login_form" %> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="$('#loginfirst_modal').modal('hide');"><%= t("close") %></button>

@@ -14,6 +14,7 @@
         <%= f.select :part_of_speech, options_for_select([t(".all")]), {}, { class: 'form-select form-select-sm input_field' } %>
     </div>
     <%= f.submit t(".search"), id: 'search_submit', class: 'btn btn-primary' %>
+    <div id="progress_placer" style="display: inline-block;"></div>
 <% end %>
 
 <div id="table_placer" class="mt-3">

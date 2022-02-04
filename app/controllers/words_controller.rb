@@ -46,7 +46,7 @@ class WordsController < ApplicationController
       format.json do
         render json: prepared_respond
       end
-      format.html { head :no_content, status: :success }
+      format.html { head :no_content, status: 204 }
     end
   end
 
