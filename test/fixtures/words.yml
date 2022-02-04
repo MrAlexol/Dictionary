@@ -13,3 +13,15 @@ two:
 three:
   id: 3
   phrase: food
+
+four:
+  id: 4
+  phrase: green
+
+five:
+  id: 5
+  phrase: red
+
+six:
+  id: 6
+  phrase: car

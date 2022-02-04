@@ -12,7 +12,7 @@
   <tbody>
     <% @cards.each do |card| %>
       <tr>
-        <td><%= link_to card.word, card, class: 'hidden_link' %></td>
+        <td><%= link_to card.word, card, class: 'hidden_link word_phrase' %></td>
         <td class="hide_me"><%= card.definition %></td>
         <td class="align-middle"><%= button_to t(".delete"), card, type: :button, class: "btn btn-danger", method: :delete %></td>
       </tr>

@@ -1,16 +1,19 @@
-require "application_system_test_case"
+# frozen_string_literal: true
+
+# Capybara github: https://github.com/teamcapybara/capybara
+
+require 'application_system_test_case'
 
 class CardsTest < ApplicationSystemTestCase
   include Devise::Test::IntegrationHelpers
   setup do
-    # @card = cards(:one)
     @user = users(:one)
     sign_in @user
   end
 
   test 'visiting the index' do
     visit cards_url
-    assert_selector 'h3', text: 'My cards'
+    assert_text 'My cards'
   end
 
   test 'creating a Card' do
@@ -25,11 +28,12 @@ class CardsTest < ApplicationSystemTestCase
 
   test 'learning a Card with correct answer' do
     visit cards_url
-    word = find('td', match: :first).text
 
-    click_on 'Learn', match: :first
+    element = find('.word_phrase', match: :first)
+    word = element.text.gsub(/ \(.*\)/, '')
+    element.click
 
-    fill_in 'card_word', with: word.gsub(/ \(.*\)/, '')
+    fill_in 'card_word', with: word
     click_on 'check_submit'
 
     result = find('#result_footer').text
@@ -39,25 +43,25 @@ class CardsTest < ApplicationSystemTestCase
 
   test 'learning a Card with almost correct answer' do
     visit cards_url
-    word = find('td', match: :first).text.gsub(/ \(.*\)/, '')
 
-    click_on 'Learn', match: :first
+    element = find('.word_phrase', match: :first)
+    word = element.text.gsub(/ \(.*\)/, '')
+    element.click
 
     fill_in 'card_word', with: word.chop
     click_on 'check_submit'
 
-    result = find('#result_footer', match: :first).text
+    result = find('#result_footer').text
 
     assert_equal "Almost correct! The right answer is #{word}", result
   end
 
   test 'learning a Card with incorrect answer' do
     visit cards_url
-    word = 'not_correct_answer'
 
-    click_on 'Learn', match: :first
+    find('.word_phrase', match: :first).click
 
-    fill_in 'card_word', with: word
+    fill_in 'card_word', with: 'not correct answer'
     click_on 'check_submit'
 
     result = find('#result_footer', match: :first).text
@@ -66,8 +70,6 @@ class CardsTest < ApplicationSystemTestCase
   end
 
   test 'destroying a Card' do
-    # @card = cards(:three)
-    # @card.save
     visit cards_url
     click_on 'Delete', match: :first
 

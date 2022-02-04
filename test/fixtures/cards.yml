@@ -7,7 +7,19 @@ one:
   definition: "a colour."
 
 two:
-  id: 11
+  id: 2
   word: "red (adjective)"
   user_id: 1
   definition: "of a colour at the end of the spectrum next to orange and opposite violet, as of blood, fire, or rubies."
+
+three:
+  id: 3
+  word: "car (noun)"
+  user_id: 2
+  definition: "a four-wheeled road vehicle that is powered by an engine and is able to carry a small number of people."
+
+four:
+  id: 4
+  word: "billionaire (noun)"
+  user_id: 1
+  definition: "a person possessing assets worth at least a billion pounds or dollars."
