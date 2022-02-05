@@ -7,6 +7,9 @@
     <%= f.password_field :password, class: 'form-control', placeholder: t("devise.password"), autocomplete: "current-password" %>
   </div>
 
+  <input id="word_memorizer" type="hidden" name="current_word" value="" />
+  <input id="pos_memorizer" type="hidden" name="current_pos" value="" />
+
   <% if devise_mapping.rememberable? %>
     <div class="field mt-2">
       <%= f.check_box :remember_me, class: 'form-check-input' %>

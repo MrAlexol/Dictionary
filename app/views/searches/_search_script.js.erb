@@ -4,7 +4,9 @@ window.addEventListener("turbolinks:load", () => {
 
   let timeoutID;
   search_form.addEventListener("submit", () => {
-    timeoutID = window.setTimeout(show_loading_circle, 150);
+    timeoutID = window.setTimeout(show_loading_circle, 1500);
+    document.querySelector("#word_memorizer").value = document.querySelector("#search_phrase").value;
+    document.querySelector("#pos_memorizer").value = document.querySelector("#search_part_of_speech").value;
   })
 
   search_form.addEventListener("ajax:success", (event) => {
@@ -38,6 +40,9 @@ window.addEventListener("turbolinks:load", () => {
   input_field?.addEventListener("change", () => {
     select.innerHTML = '<option value="all"><%= t("searches.new.all") %></option>';
   });
+
+  if ($("#search_phrase").val())
+    $("#search_submit").click();
 });
 
 function show_loading_circle() {
@@ -98,10 +103,10 @@ function fill_table(own_data, api_data) {
     const select = document.querySelector("#search_part_of_speech");
 
     word.meanings.forEach( (meaning, meaning_index) => {
-      if (select.innerText.split("\n").indexOf(meaning.partOfSpeech) === -1) {
+      if (select.innerText.split("\n").indexOf(translate(meaning.partOfSpeech)) === -1) {
         let opt = document.createElement('option');
         opt.value = meaning.partOfSpeech;
-        opt.innerHTML = meaning.partOfSpeech;
+        opt.innerHTML = translate(meaning.partOfSpeech);
         select.appendChild(opt);
       }
       
@@ -193,5 +198,30 @@ function handle_error(error_obj) {
     default:
       console.error('Unknown error. Please, contact server administrators.');
       break;
+  }
+}
+
+function translate(str) {
+  switch (str) {
+    case "noun":
+      return "<%= t("searches.new.noun") %>";
+    case "pronoun":
+      return "<%= t("searches.new.pronoun") %>";
+    case "adjective":
+      return "<%= t("searches.new.adjective") %>";
+    case "verb":
+      return "<%= t("searches.new.verb") %>";
+    case "adverb":
+      return "<%= t("searches.new.adverb") %>";
+    case "preposition":
+      return "<%= t("searches.new.preposition") %>";
+    case "number":
+      return "<%= t("searches.new.number") %>";
+    case "exclamation":
+      return "<%= t("searches.new.exclamation") %>";
+    case "interjection":
+      return "<%= t("searches.new.interjection") %>";
+    case "conjunction":
+      return "<%= t("searches.new.conjunction") %>";
   }
 }

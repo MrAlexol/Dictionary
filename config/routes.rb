@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   root 'searches#new'
   get 'searches/new'
+  get 'searches/show'
 
   post 'cards/:id/check', to: 'cards#check', as: 'card_check'
   resources :cards, only: %i[index create show destroy]
@@ -10,6 +11,9 @@ Rails.application.routes.draw do
   # devise_scope :user do
   #   delete 'auth/register', to: 'users/registrations#destroy'
   # end
+  devise_scope :user do
+    post 'auth/login', to: 'users/sessions#create'
+  end
   devise_for :users, path: 'auth', path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verification', unlock: 'unblock', registration: 'register', sign_up: 'cmon_let_me_in' }
   resources :words, only: %i[show index]
   match '*unmatched', to: 'application#not_found_no_logs', via: :all

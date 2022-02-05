@@ -39,6 +39,16 @@ ru:
       phrase: "Слово"
       part_of_speech: "Часть речи"
       all: "Все"
+      noun: "Существительное"
+      pronoun: "Местоимение"
+      adjective: "Прилагательное"
+      verb: "Глагол"
+      adverb: "Наречие"
+      preposition: "Предлог"
+      number: "Числительное"
+      exclamation: "Междометие"
+      interjection: "Междометие"
+      conjunction: "Союз"
   cards:
     destroyed: "Карточка удалена"
     script:

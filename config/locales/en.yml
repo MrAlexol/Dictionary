@@ -38,7 +38,17 @@ en:
       search: "Search"
       phrase: "Word"
       part_of_speech: "Part of speech"
-      all: "all"
+      all: "All"
+      noun: "Noun"
+      pronoun: "Pronoun"
+      adjective: "Adjective"
+      verb: "Verb"
+      adverb: "Adverb"
+      preposition: "Preposition"
+      number: "Number"
+      exclamation: "Exclamation"
+      interjection: "Interjection"
+      conjunction: "Conjunction"
   cards:
     destroyed: "Card has been deleted"
     script:
