@@ -97,7 +97,7 @@ function fill_table(own_data, api_data) {
     thead.appendChild(groups_row);
     let groups_list = own_data?.groups?.split('|');
     groups_list?.forEach ( (el) => {
-      groups_row.innerHTML += `<span style="background-color: #FF00FF; color: white;">${el}</span><span> </span>`;
+      groups_row.innerHTML += `<span title="${abbr_to_title(el)}" class="freq" style="background-color: #FF00FF; color: white;">${el}</span><span> </span>`;
     });
     
     const select = document.querySelector("#search_part_of_speech");
@@ -118,6 +118,9 @@ function fill_table(own_data, api_data) {
         meaning.definitions.forEach( (definition, def_index) => {
           const def_tr = document.createElement("tr");
           tbody.appendChild(def_tr);
+          const def_number = document.createElement("span");
+          def_tr.appendChild(def_number);
+          def_number.innerText = `${def_index + 1}. `;
           const def_row = document.createElement("span");
           def_tr.appendChild(def_row);
           def_row.innerText = definition.definition;
@@ -128,8 +131,12 @@ function fill_table(own_data, api_data) {
           if (definition.example) {
             const example_row = document.createElement("tr");
             tbody.appendChild(example_row);
-            example_row.innerText = definition.example;
-            example_row.style = 'font-style: italic';
+            const example_div = document.createElement("div");
+            example_row.appendChild(example_div);
+
+            example_div.innerText = definition.example;
+            example_div.style = "font-style: italic; color:grey;";
+            example_div.classList = "mt-1 mb-1";
           }
         });
       }
@@ -138,6 +145,21 @@ function fill_table(own_data, api_data) {
       result_table.remove();
     }
   });
+}
+
+function abbr_to_title(freq_abbr) {
+  switch (freq_abbr) {
+    case "W1": return "Top 1000 written words";
+    case "S1": return "Top 1000 spoken words";
+    case "W2": return "Top 2000 written words";
+    case "S2": return "Top 2000 spoken words";
+    case "W3": return "Top 3000 written words";
+    case "S3": return "Top 3000 spoken words";
+    case "x123": return "Core vocabulary: High-frequency";
+    case "x456": return "Core vocabulary: Medium-frequency";
+    case "x789": return "Core vocabulary: Lower-frequency";
+    case "AWL": return "Academic Word List";
+  }
 }
 
 function show_options(options) {

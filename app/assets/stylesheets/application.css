@@ -28,6 +28,10 @@ a.hidden_link {
     cursor: pointer;
 }
 
+.freq:hover {
+    cursor: help;
+}
+
 @media (min-width: 1000px) { /* самый большой */
     .input_field {
         max-width: 40%;
@@ -38,6 +42,11 @@ a.hidden_link {
     }
     main {
         margin-bottom: 12%;
+    }
+    .icon {
+        min-width: 47px;
+        width: 15%;
+        max-height: 60px;
     }
 }
 
@@ -52,6 +61,9 @@ a.hidden_link {
     main {
         margin-bottom: 7%;
     }
+    .icon {
+        width: 32px;
+    }
 }
 
 @media (max-width: 500px) { /* маленький */
@@ -63,6 +75,9 @@ a.hidden_link {
     }
     .hide_me {
         display: none;
+    }
+    .icon {
+        width: 25px;
     }
 }
 

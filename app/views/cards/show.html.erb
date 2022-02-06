@@ -24,6 +24,6 @@
 </div>
 
 <br>
-<%= button_to t(".next_card"), get_random_card, type: :button, class: "btn btn-success float-end", method: :get %>
+<%= button_to t(".next_card"), get_random_card, type: :button, class: "btn btn-success float-end", id: 'next_card_btn', method: :get %>
 
 <%= render 'shared/lost_connection' %>
