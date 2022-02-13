@@ -113,7 +113,8 @@ function fill_table(own_data, api_data) {
       if (meaning.partOfSpeech === select.value || select.value == "all") {
         const word_row = document.createElement("tr");
         tbody.appendChild(word_row);
-        word_row.innerHTML = `<strong>${word.word} (${meaning.partOfSpeech})</strong>`;
+        word_row.innerHTML = `${word.word} (${meaning.partOfSpeech})`;
+        word_row.classList = "word_row";
         word_row.id = `word_row_${word_index}_${meaning_index}`
         meaning.definitions.forEach( (definition, def_index) => {
           const def_tr = document.createElement("tr");

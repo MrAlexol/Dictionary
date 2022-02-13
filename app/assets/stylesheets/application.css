@@ -32,6 +32,10 @@ a.hidden_link {
     cursor: help;
 }
 
+.word_row {
+    font-weight: bold;
+}
+
 @media (min-width: 1000px) { /* самый большой */
     .input_field {
         max-width: 40%;
