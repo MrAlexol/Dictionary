@@ -14,7 +14,7 @@
     <p class="card-text"><%= @card.definition %></p>
   </div>
 
-  <%= form_with model: @card, id: :card_form, local: false, url: "#{card_check_path}.json", method: :post, format: :json do |f| %>
+  <%= form_with model: @card, id: :card_form, local: false, url: card_check_path(@card, :json), method: :post, format: :json do |f| %>
     <div class="m-3">
         <%= f.text_field :word, value: nil, class: 'form-control input_field' %>
     </div>

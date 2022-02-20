@@ -18,11 +18,8 @@ class CardsController < ApplicationController
 
   # POST /cards/1/check.json
   def check
-    respond_to do |format|
-      format.json do
-        render json: { result: make_respond(card_params[:word], @card.word).as_json, for: params[:button] }.as_json
-      end
-    end
+    @response = make_response(card_params[:word], @card.word)
+    @user_action = params[:button]
   end
 
   # POST /cards or /cards.json
@@ -30,15 +27,6 @@ class CardsController < ApplicationController
     @card = Card.new(card_params)
     @card.user_id = current_user.id
     @card.save
-    # respond_to do |format|
-    #   if @card.save
-    #     format.html { redirect_to @card, notice: "Card was successfully created." }
-    #     format.json { render :show, status: :created, location: @card }
-    #   else
-    #     format.html { render :new, status: :unprocessable_entity }
-    #     format.json { render json: @card.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   # DELETE /cards/1 or /cards/1.json

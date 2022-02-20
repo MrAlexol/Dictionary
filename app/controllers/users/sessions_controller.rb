@@ -17,17 +17,12 @@ module Users
       sign_in(resource_name, resource)
       yield resource if block_given?
 
-      referer_relative_path = request.headers['Referer'].delete_prefix(request.headers['Origin'])
-      redirect_path = case referer_relative_path
-                      when new_user_session_path then after_sign_in_path_for(resource)
-                      when searches_show_path, searches_new_path, root_path
+      redirect_path = if params[:current_word]
                         searches_show_path(search: { phrase: params[:current_word], part_of_speech: params[:current_pos] })
-                      else after_sign_in_path_for(resource)
+                      else
+                        after_sign_in_path_for(resource)
                       end
-      respond_to do |format|
-        format.json { head :no_content, status: :success }
-        format.html { redirect_to redirect_path }
-      end
+      redirect_to redirect_path
     end
 
     # DELETE /resource/sign_out

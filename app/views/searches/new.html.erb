@@ -4,7 +4,7 @@
     <script> <%= render partial: 'search_script', formats: [:js] %> </script>
 <% end %>
 
-<%= form_with model: @search, id: :search_form, local: false, url: "#{words_path}.json", method: :get, format: :json do |f| %>
+<%= form_with model: @search, id: :search_form, local: false, url: words_path(:json), method: :get, format: :json do |f| %>
     <div class="mb-3">
         <%= f.label t(".phrase") %>
         <%= f.search_field :phrase, class: 'form-control input_field', required: true %>

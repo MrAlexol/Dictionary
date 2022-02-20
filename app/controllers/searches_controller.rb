@@ -15,9 +15,7 @@ class SearchesController < ApplicationController
     end
     @avail_parts_of_speech ||= { t('searches.new.all') => 'all' }
 
-    respond_to do |format|
-      format.html { render :new }
-    end
+    render :new
   end
 
   private

@@ -3,7 +3,7 @@ module CardsHelper
     Card.where(user_id: current_user)[rand * Card.where(user_id: current_user).count]
   end
 
-  def make_respond(input, correct)
+  def make_response(input, correct)
     correct.gsub!(/ \(.*\)/, '').downcase!
     input.strip!
     input.downcase!
