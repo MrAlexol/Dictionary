@@ -36,6 +36,10 @@ a.hidden_link {
     font-weight: bold;
 }
 
+.word_header {
+    font-size: 140%;
+}
+
 @media (min-width: 1000px) { /* самый большой */
     .input_field {
         max-width: 40%;

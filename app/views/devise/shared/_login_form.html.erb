@@ -21,3 +21,10 @@
     <%= f.submit t("devise.log_in"), class: 'btn btn-secondary' %>
   </div>
 <% end %>
+
+<br>
+<div class="float-end">
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+    <%= link_to t("sign_up"), new_registration_path(resource_name) %><br />
+  <% end %>
+</div>

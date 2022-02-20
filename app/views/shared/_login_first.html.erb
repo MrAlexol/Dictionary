@@ -9,7 +9,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= t("please_login") %>
+        <div class="mb-2">
+          <%= t("please_login") %>
+        </div>
         <%# This works because of Searches helper %>
         <%= render "devise/shared/login_form" %> 
       </div>

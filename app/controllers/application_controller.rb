@@ -8,13 +8,14 @@ class ApplicationController < ActionController::Base
 
   def switch_locale(&action)
     locale = current_user[:locale] if current_user
-    params_locale = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
+    params_locale = params[:locale] if I18n.available_locales.include?(params[:locale]&.to_sym)
     locale ||= params_locale || locale_from_header || I18n.default_locale
     I18n.with_locale(locale, &action)
   end
 
   def locale_from_header
-    request.env.fetch('HTTP_ACCEPT_LANGUAGE', '').scan(/[a-z]{2}/).first
+    result = request.env.fetch('HTTP_ACCEPT_LANGUAGE', '').scan(/[a-z]{2}/).first
+    result if I18n.available_locales.include?(result&.to_sym)
   end
 
   protected
